@@ -213,14 +213,11 @@ unique scenario names and year across files.
 Pull requests are welcome. However conventions and styles that have been setup
 already must be respected throughout your development cycle:
 
-1. There should be a ticket to do from the
-[Github project board](https://github.com/orgs/EnergyExplorer/projects/1/views/1)
-or an open issue.
+1. There should be a ticket from the
+[Github project board](https://github.com/orgs/EnergyExplorer/projects/1/views/1) or an open issue.
 2. Follow the spec for [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
-3. Keep PRs small and digestable. Chain PRs when making large changes to avoid
-large PRs.
-4. Update tests when they exist to prevent bugs creeping in.
-5. Create and update documentation.
+3. If you create a PRs make it small and digestable. Chain PRs when making large changes to avoid large PRs.
+4. Create and update documentation.
 
 ## Authors
 Adriana Marcucci, Stephane Bisinger and Robert Stanton
