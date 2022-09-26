@@ -14,8 +14,8 @@ export function formatMonthlyEnergyMix(scenario) {
     })
     .filter((series) => series.data.some((value) => value != 0));
 }
-const AreaChart = ({ series }) => {
-  const getChartOptions = () => ({
+const AreaChart = ({ series, stackingMode }) => {
+  const getChartOptions = (stackingMode) => ({
     chart: { type: "area" },
     title: { text: "" },
     xAxis: {
@@ -34,17 +34,27 @@ const AreaChart = ({ series }) => {
         "Dec",
       ],
     },
+    yAxis: {
+      title: { text: "Energy in GWh" },
+    },
+    tooltip: {
+      valueDecimals: 1,
+      valueSuffix: ' GWh'
+    },
     plotOptions: {
       area: {
-        stacking: "normal",
+        stacking: stackingMode,
       },
     },
     series: series,
   });
-  const [chartOptions, setChartOptions] = useState(getChartOptions());
+  const [chartOptions, setChartOptions] = useState(
+    getChartOptions(stackingMode)
+  );
   useEffect(() => {
-    setChartOptions(getChartOptions());
-  }, [series]);
+    console.log("updating stacking mode", stackingMode);
+    setChartOptions(getChartOptions(stackingMode));
+  }, [series, stackingMode]);
   return (
     <HighchartsReact
       allowChartUpdate={true}
