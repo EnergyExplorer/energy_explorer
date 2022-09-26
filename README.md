@@ -10,8 +10,9 @@ the full picture and understand the features of the net-zero Switzerland. How
 can policy-makers take decisions based on model-driven energy scenarios?
 
 ### The goal
-Develop a decision-making tool to allow policy makers to explore and compare multiple energy scenarios. The tool should visualise for each scenario key indicators and
-energy sources/carriers.
+Develop a decision-making tool to allow policy makers to explore and compare
+multiple energy scenarios. The tool should visualise for each scenario key
+indicators and energy sources/carriers.
 
 This tool was developed at the [Energy Data Hackdays
 2022](https://energydatahackdays.ch/) on the 16th-17th of September 2022 in
@@ -54,7 +55,8 @@ The frontend is a React application that uses the
 
 ### Installing
 
-[NodeJS version 16](https://nodejs.org/en/download/) or following is required to run the project locally. To install the dependencies run:
+[NodeJS version 16](https://nodejs.org/en/download/) or following is required to
+run the project locally. To install the dependencies run:
 
 ```bash
 $ npm install
@@ -116,7 +118,8 @@ If not, poetry is provided with an installer:
 $ curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-Alternatively, poetry can be installed with `pip`, ideally within an [virtual environment](https://docs.python.org/3/library/venv.html):
+Alternatively, poetry can be installed with `pip`, ideally within an
+[virtual environment](https://docs.python.org/3/library/venv.html):
 
 ```bash
 $ pip install -U pip setuptools && pip install poetry
@@ -148,7 +151,8 @@ The application will be accessible from `localhost:8000`.
 To import scenarios you need to install the dependencies with Poetry, as
 outlined above.
 
-To import a CSV file, it needs to be saved in the `data/import` directory. Once it's there, all the files in the directory will be imported by running:
+To import a CSV file, it needs to be saved in the `data/import` directory.
+Once it's there, all the files in the directory will be imported by running:
 
 ```bash
 # You need to be in the `api` directory.
@@ -209,9 +213,12 @@ unique scenario names and year across files.
 Pull requests are welcome. However conventions and styles that have been setup
 already must be respected throughout your development cycle:
 
-1. There should be a ticket to do from the [Github project board](https://github.com/orgs/EnergyExplorer/projects/1/views/1) or an open issue.
+1. There should be a ticket to do from the
+[Github project board](https://github.com/orgs/EnergyExplorer/projects/1/views/1)
+or an open issue.
 2. Follow the spec for [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
-3. Keep PRs small and digestable. Chain PRs when making large changes to avoid large PRs.
+3. Keep PRs small and digestable. Chain PRs when making large changes to avoid
+large PRs.
 4. Update tests when they exist to prevent bugs creeping in.
 5. Create and update documentation.
 
