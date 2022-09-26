@@ -35,10 +35,14 @@ const timesOfYear = [
 const DetailPage = () => {
   const [timeOfYear, setTimeOfYear] = useState("yearValue");
   const [scenarioData, setScenarioData] = useState(null);
+  const [stackingMode, setStackingMode] = useState("normal");
   const { id } = useParams();
 
   const onChangeRadio = useCallback(({ target }) => {
     setTimeOfYear(target.value);
+  }, []);
+  const onChangeStackingMode = useCallback(({ target }) => {
+    setStackingMode(target.value);
   }, []);
 
   useEffect(() => {
@@ -110,8 +114,17 @@ const DetailPage = () => {
           <Typography.Title level={2}>
             Electricity mix over a year
           </Typography.Title>
+          <Radio.Group
+            size="medium"
+            value={stackingMode}
+            onChange={onChangeStackingMode}
+          >
+            <Radio.Button value="normal">Absolute</Radio.Button>
+            <Radio.Button value="percent">Relative (%)</Radio.Button>
+          </Radio.Group>
           <AreaChart
             series={formatMonthlyEnergyMix(scenarioData)}
+            stackingMode={stackingMode}
             id={id}
           />
         </Space>

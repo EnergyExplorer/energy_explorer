@@ -59,7 +59,6 @@ const PieChart = ({ scenario }) => {
   }, [scenario]);
   return (
     <HighchartsReact
-      // constructorType = { 'sankyChart' }
       allowChartUpdate={true}
       immutable={false}
       highcharts={Highcharts}
