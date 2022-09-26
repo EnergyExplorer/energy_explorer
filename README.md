@@ -10,16 +10,38 @@ the full picture and understand the features of the net-zero Switzerland. How
 can policy-makers take decisions based on model-driven energy scenarios?
 
 ### The goal
-Develop a decision-making tool to explore and compare multiple energy
-scenarios. The tool should visualise for each scenario key indicators and
-energy sources/carriers. 
-
+Develop a decision-making tool to allow policy makers to explore and compare
+multiple energy scenarios. The tool should visualise for each scenario key
+indicators and energy sources/carriers.
 
 This tool was developed at the [Energy Data Hackdays
 2022](https://energydatahackdays.ch/) on the 16th-17th of September 2022 in
 Brugg.
 This is the solution to challenge 07: [Alternative pathways to net
 zero](https://hack.opendata.ch/project/846).
+
+
+## Roadmap
+To be discussed and solidified.
+Until November 2022, we would like to add new features to help policymakers with
+the help of our main stakeholders and direction from the project founder,
+Adriana Carpucci. The features we have discussed include:
+
+[] An overview where the user can easily compare all key indicators between
+many scenarios.
+[] A page where the user can compare up to three scenarios in detail.
+[] Add an import page for the user to easily add new scenarios
+
+Out of technical discussions, we would like to:
+
+[] Move from CSV files to a NoSQL document database
+[] Improve the deployment mechanism
+
+## Badges
+[Sheild coming soon...](https://shields.io/category/build)
+
+## Visuals
+GIF demo coming soon...
 
 ## Frontend application
 
@@ -33,8 +55,8 @@ The frontend is a React application that uses the
 
 ### Installing
 
-NodeJS version 16 or following is required to run the project locally. To
-install the dependencies run:
+[NodeJS version 16](https://nodejs.org/en/download/) or following is required to
+run the project locally. To install the dependencies run:
 
 ```bash
 $ npm install
@@ -64,7 +86,7 @@ $ env VITE_API_HOST="https://energy-explorer-api-ij67sr2isq-oa.a.run.app" npm ru
 The API backend is a Python application written with
 [FastAPI](https://fastapi.tiangolo.com/) and
 [Pandas](https://pandas.pydata.org/). The dependencies are managed through
-[Poetry](https://python-poetry.org/). 
+[Poetry](https://python-poetry.org/).
 
 ### Running the docker image
 
@@ -96,7 +118,8 @@ If not, poetry is provided with an installer:
 $ curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-Alternatively, poetry can be installed with `pip`, ideally within an [virtual environment](https://docs.python.org/3/library/venv.html):
+Alternatively, poetry can be installed with `pip`, ideally within an
+[virtual environment](https://docs.python.org/3/library/venv.html):
 
 ```bash
 $ pip install -U pip setuptools && pip install poetry
@@ -128,7 +151,8 @@ The application will be accessible from `localhost:8000`.
 To import scenarios you need to install the dependencies with Poetry, as
 outlined above.
 
-To import a CSV file, it needs to be saved in the `data/import` directory. Once it's there, all the files in the directory will be imported by running:
+To import a CSV file, it needs to be saved in the `data/import` directory.
+Once it's there, all the files in the directory will be imported by running:
 
 ```bash
 # You need to be in the `api` directory.
@@ -183,3 +207,20 @@ file already present. In particular:
 **Please note**: If multiple scenarios have the same name and year, only the
 last processed scenario in the last processed file will be output. Ensure
 unique scenario names and year across files.
+
+
+## Contributing
+Pull requests are welcome. However conventions and styles that have been setup
+already must be respected throughout your development cycle:
+
+1. There should be a ticket from the
+[Github project board](https://github.com/orgs/EnergyExplorer/projects/1/views/1) or an open issue.
+2. Follow the spec for [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+3. If you create a PRs make it small and digestable. Chain PRs when making large changes to avoid large PRs.
+4. Create and update documentation.
+
+## Authors
+Adriana Marcucci, Stephane Bisinger and Robert Stanton
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
