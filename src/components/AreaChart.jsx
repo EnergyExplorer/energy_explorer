@@ -3,6 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 export function formatMonthlyEnergyMix(scenario) {
+  const sum = (a, b) => a + b;
   return scenario.data.energySources
     .filter(
       (sourceName) =>
@@ -10,9 +11,13 @@ export function formatMonthlyEnergyMix(scenario) {
     )
     .map((sourceName) => {
       const source = scenario.data[sourceName];
-      return { name: sourceName, data: source.monthlyValues };
+      return {
+        name: sourceName.replace("Electricity|", ""),
+        data: source.monthlyValues,
+      };
     })
-    .filter((series) => series.data.some((value) => value != 0));
+    .filter((series) => series.data.some((value) => value != 0))
+    .sort((a, b) => a.data.reduce(sum) - b.data.reduce(sum));
 }
 const AreaChart = ({ series, stackingMode, type }) => {
   const getChartOptions = (stackingMode, chartType) => ({
