@@ -95,7 +95,7 @@ dependencies on the local machine. The simplest way to start the API is through
 `docker-compose`:
 
 ```bash
-$ docker-compose up
+$ docker-compose --build up
 ```
 
 The API will be accessible on port `8000`, for example:
