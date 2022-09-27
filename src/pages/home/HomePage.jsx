@@ -91,7 +91,9 @@ const HomePage = () => {
             </Link>
           )}
           sorter={(a, b) => {
-            return scenarioTitles[a.name].localeCompare(scenarioTitles[b.name]);
+            return (scenarioTitles[a.name] ?? a.name).localeCompare(
+              scenarioTitles[b.name] ?? b.name
+            );
           }}
           defaultSortOrder="ascend"
           sortDirections={["ascend", "descend", "ascend"]}
