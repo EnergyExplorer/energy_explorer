@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Typography } from "antd";
+import { Table } from "antd";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 
 import StatCircle from "../../components/StatCircle";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { routes } from "../../routes";
 import { API_HOST } from "../../config";
 import scenarioTitles from "../../scenarioTitleMap.json";
+import HomePageHeader from "./HomePageHeader";
 
 const { Column } = Table;
 
@@ -80,7 +81,7 @@ const HomePage = () => {
 
   return (
     <ApplicationWrapper>
-      <Typography.Title level={1}>Available scenarios</Typography.Title>
+      <HomePageHeader/>
       <Table dataSource={scenarioSummary} pagination={false}>
         <Column
           dataIndex="name"
