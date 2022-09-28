@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Table, Tooltip, Typography } from "antd";
-import ApplicationWrapper from "../../components/ApplicationWrapper";
-
-import StatCircle from "../../components/StatCircle";
+import { Table, Tooltip } from "antd";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { routes } from "../../routes";
-import { API_HOST } from "../../config";
+import HomePageHeader from "./HomePageHeader";
+import ApplicationWrapper from "../../components/ApplicationWrapper";
+import StatCircle from "../../components/StatCircle";
 import scenarioTitles from "../../scenarioTitleMap.json";
 import { InfoCircleOutlined } from "@ant-design/icons";
+import { routes } from "../../routes";
+import { API_HOST } from "../../config";
 
 const { Column } = Table;
 
@@ -101,12 +102,11 @@ const HomePage = () => {
 
   return (
     <ApplicationWrapper>
-      <Typography.Title level={1}>Available scenarios</Typography.Title>
+      <HomePageHeader selectedRowKeys={selectedRowKeys}/>
       <Table
         dataSource={scenarioSummary}
         pagination={false}
-        rowSelection={rowSelection}
-      >
+        rowSelection={rowSelection}>
         <Column
           title='Scenario'
           dataIndex="name"
