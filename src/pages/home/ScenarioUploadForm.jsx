@@ -1,11 +1,12 @@
 import React from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
+import { scenarioUploadApi } from '../../utils/endpoints';
 
 const props = {
   name: 'file',
   accept: 'text/csv,application/vnd.ms-excel',
-  action: '',
+  action: scenarioUploadApi,
   headers: {},
   onChange(info) {
     if (info.file.status !== 'uploading') {
