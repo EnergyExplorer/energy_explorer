@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Table, Typography } from "antd";
+import React, { useEffect, useMemo, useState } from "react";
+import { Table, Tooltip, Typography } from "antd";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 
 import StatCircle from "../../components/StatCircle";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { routes } from "../../routes";
 import { API_HOST } from "../../config";
 import scenarioTitles from "../../scenarioTitleMap.json";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 const { Column } = Table;
 
@@ -78,11 +79,36 @@ const HomePage = () => {
     });
   }, [scenarioSummary]);
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+  const rowSelection = useMemo(() => ({
+    columnTitle: <Tooltip title={<span>Compare max 3 scenarios</span>}>
+      <InfoCircleOutlined/>
+    </Tooltip>,
+    selectedRowKeys,
+    onChange: newSelectedRowKeys => { setSelectedRowKeys(newSelectedRowKeys) },
+    getCheckboxProps: record => {
+      console.log(record)
+      return {
+        disabled: (
+          !selectedRowKeys.find(selectedRow => selectedRow === record.key)
+          && selectedRowKeys.length >= 3), // Column configuration not to be checked
+        name: record.name,
+      }
+    },
+    hideSelectAll: true,
+  }), [selectedRowKeys]);
+
   return (
     <ApplicationWrapper>
       <Typography.Title level={1}>Available scenarios</Typography.Title>
-      <Table dataSource={scenarioSummary} pagination={false}>
+      <Table
+        dataSource={scenarioSummary}
+        pagination={false}
+        rowSelection={rowSelection}
+      >
         <Column
+          title='Scenario'
           dataIndex="name"
           key="name"
           render={(value, scenario) => (
