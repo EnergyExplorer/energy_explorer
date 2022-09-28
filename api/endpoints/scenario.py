@@ -1,7 +1,9 @@
 import os
 import json
 import pandas
-from fastapi import APIRouter
+from fastapi import APIRouter, File, UploadFile
+from importer import main
+from io import BytesIO
 
 router = APIRouter(
     prefix="/scenarios",
@@ -98,5 +100,19 @@ def format_csv_scenario(scenario_csv):
         ).sum(),
     }
 
+@router.post("/upload")
+def upload_file(file: UploadFile):
+    print('Type of file is %s' % (type(file)))
+    print(f"Processing {os.path.basename(file.filename)}")
+    contents = file.file.read()
+    data = BytesIO(contents)
+    all_scenarios = pandas.read_csv(data)
+    data.close()
+    file.file.close()
+    if not isinstance(all_scenarios, pandas.DataFrame):
+        print(f"File {file.filename} could not be parsed")
+        return
+    for (scenario, year), data in all_scenarios.groupby(["scenario", "year"]):
+        main.import_scenario(scenario, year, data.iloc[:, 2:])
 
 format_scenario = format_json_scenario
