@@ -3,10 +3,6 @@ import { Button, Tooltip } from 'antd';
 import WeightIcon from '../../components/WeightIcon';
 
 const ScenarioComparisonButton = ({ selectedRowKeys }) => {
-  if (selectedRowKeys.length === 0) {
-    return null
-  }
-
   const button = <Button
     size='large'
     disabled={selectedRowKeys.length <= 2}>
@@ -22,5 +18,7 @@ const ScenarioComparisonButton = ({ selectedRowKeys }) => {
       {button}
     </Tooltip>
   }
+
+  return button
 }
 export default ScenarioComparisonButton
