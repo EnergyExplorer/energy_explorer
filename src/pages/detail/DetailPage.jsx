@@ -44,13 +44,7 @@ const DetailPage = () => {
   useEffect(() => {
     const fetchScenario = async () => {
       try {
-        // ToDo: we need to fetch from this API at some point :)
         const response = await fetch(`${API_HOST}/scenarios/${id}`);
-        // const response = await fetch(`../../../data/scenario_${id}.json`, {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        // })
         const scenario = await response.json();
         setScenarioData(scenario);
       } catch (error) {
