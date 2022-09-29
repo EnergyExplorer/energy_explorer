@@ -35,30 +35,16 @@ const timesOfYear = [
 const DetailPage = () => {
   const [timeOfYear, setTimeOfYear] = useState("yearValue");
   const [scenarioData, setScenarioData] = useState(null);
-  const [stackingMode, setStackingMode] = useState("normal");
-  const [chartType, setChartType] = useState("area");
   const { id } = useParams();
 
   const onChangeRadio = useCallback(({ target }) => {
     setTimeOfYear(target.value);
   }, []);
-  const onChangeStackingMode = useCallback(({ target }) => {
-    setStackingMode(target.value);
-  }, []);
-  const onChangeChartType = useCallback(({ target }) => {
-    setChartType(target.value);
-  }, []);
 
   useEffect(() => {
     const fetchScenario = async () => {
       try {
-        // ToDo: we need to fetch from this API at some point :)
         const response = await fetch(`${API_HOST}/scenarios/${id}`);
-        // const response = await fetch(`../../../data/scenario_${id}.json`, {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        // })
         const scenario = await response.json();
         setScenarioData(scenario);
       } catch (error) {
@@ -118,30 +104,7 @@ const DetailPage = () => {
           <Typography.Title level={2}>
             Electricity mix over a year
           </Typography.Title>
-          <Space size="small">
-            <Radio.Group
-              size="medium"
-              value={stackingMode}
-              onChange={onChangeStackingMode}
-            >
-              <Radio.Button value="normal">Absolute</Radio.Button>
-              <Radio.Button value="percent">Relative (%)</Radio.Button>
-            </Radio.Group>
-            <Radio.Group
-              size="medium"
-              value={chartType}
-              onChange={onChangeChartType}
-            >
-              <Radio.Button value="area">Area</Radio.Button>
-              <Radio.Button value="column">Bar</Radio.Button>
-            </Radio.Group>
-          </Space>
-          <AreaChart
-            series={formatMonthlyEnergyMix(scenarioData)}
-            stackingMode={stackingMode}
-            type={chartType}
-            id={id}
-          />
+          <AreaChart series={formatMonthlyEnergyMix(scenarioData)} id={id} />
         </Space>
       </div>
     </ApplicationWrapper>
