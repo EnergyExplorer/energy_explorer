@@ -12,7 +12,7 @@ const Routing = () => {
       <Routes>
         <Route path={routes.home} element={<HomePage />} />
         <Route path={routes.scenario} element={<DetailPage />}/>
-        <Route path={routes.comparison} element={<ComparisonDemoPage />}/>
+        <Route path={routes.comparison()} element={<ComparisonDemoPage />}/>
         <Route path='*' element={<NotFoundPage/>}/>
       </Routes>
     </BrowserRouter>
