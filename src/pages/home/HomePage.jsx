@@ -82,7 +82,10 @@ const HomePage = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const rowSelection = useMemo(() => ({
-    columnTitle: <Tooltip title={<span>Compare max 3 scenarios</span>}>
+    columnTitle: <Tooltip
+      placement="topRight"
+      title={<span>Select max 3 scenarios to compare</span>}
+    >
       <InfoCircleOutlined/>
     </Tooltip>,
     selectedRowKeys,
