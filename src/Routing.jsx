@@ -4,7 +4,7 @@ import HomePage from "./pages/home/HomePage";
 import DetailPage from "./pages/detail/DetailPage";
 import { routes } from "./routes";
 import NotFoundPage from "./pages/notfound/NotFoundPage";
-import ComparisonDemoPage from "./pages/comparison-demo/ComparisonDemoPage";
+import ComparisonPage from "./pages/comparison/ComparisonPage";
 
 const Routing = () => {
   return (
@@ -12,7 +12,7 @@ const Routing = () => {
       <Routes>
         <Route path={routes.home} element={<HomePage />} />
         <Route path={routes.scenario} element={<DetailPage />}/>
-        <Route path={routes.comparison()} element={<ComparisonDemoPage />}/>
+        <Route path={routes.comparison()} element={<ComparisonPage />}/>
         <Route path='*' element={<NotFoundPage/>}/>
       </Routes>
     </BrowserRouter>

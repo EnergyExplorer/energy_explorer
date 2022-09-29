@@ -1,4 +1,4 @@
-import { createSearchQuery } from "./utils/createSearchQuery";
+import { createSearchQuery } from "./utils/url";
 
 export const appBaseRoute = "/app";
 
