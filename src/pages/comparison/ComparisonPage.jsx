@@ -6,7 +6,7 @@ import BackButton from "../../components/BackButton";
 import scenarioTitles from "../../scenarioTitleMap.json";
 import { routes } from "../../routes";
 
-import styles from "./ComparisonDemoPage.module.css";
+import styles from "./ComparisonPage.module.css";
 import BarChart, {
   formatImportsMultipleScenarios,
 } from "../../components/BarChart";
@@ -50,7 +50,7 @@ const ids = [
   "co2-0_ elec_imports_2050",
   "co2--5_ elec_imports_2050",
 ];
-const ComparisonDemoPage = () => {
+const ComparisonPage = () => {
   const [timeOfYear, setTimeOfYear] = useState("yearValue");
   const [scenarioData, setScenarioData] = useState(null);
 
@@ -127,4 +127,4 @@ const ComparisonDemoPage = () => {
   );
 };
 
-export default ComparisonDemoPage;
+export default ComparisonPage;
