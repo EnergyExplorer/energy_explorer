@@ -1,18 +1,18 @@
 import os
 import json
 import pandas
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, UploadFile
 from importer import main
 from io import BytesIO
 
 router = APIRouter(
-    prefix="/scenarios",
     tags=[],
     responses={404: {"description": "Not found"}},
 )
 
 scenario_db = {}
 
+@router.get("")
 @router.get("/")
 def list_scenarios():
     load_scenarios()
