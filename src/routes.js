@@ -13,5 +13,6 @@ export const routes = {
    * @param {string} employee.scenario_1 - Scenario 2 ID
    * @param {string} employee.scenario_2 - Scenario 3 ID
    */
-  comparison: scenarios => `/comparison${createSearchQuery(scenarios)}`
+  comparison: (scenarios) => `/comparison${createSearchQuery(scenarios)}`,
+  comparison_demo: `/comparison-demo`,
 };
