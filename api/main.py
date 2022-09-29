@@ -21,7 +21,7 @@ app.add_middleware(
 )
 
 router = APIRouter()
-router.include_router(scenario.router)
+router.include_router(scenario.router, prefix="/scenarios")
 app.include_router(router)
 
 
