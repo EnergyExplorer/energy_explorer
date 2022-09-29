@@ -6,7 +6,6 @@ import { UploadOutlined } from '@ant-design/icons';
 
 const ScenarioUploadButton = () => (
   <RevealButton
-    disabled
     text={<b>Upload scenario</b>}
     icon={<b><UploadOutlined/>{'  '}</b>}
     size='large'
