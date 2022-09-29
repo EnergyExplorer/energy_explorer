@@ -1,9 +1,10 @@
 import React from 'react';
-import { Row, Col, Typography } from 'antd';
+import { Row, Col, Typography, Space } from 'antd';
 import ScenarioUploadButton from './ScenarioUploadButton';
+import ScenarioComparisonButton from './ScenarioComparisonButton';
 import styles from './HomePageHeader.module.css';
 
-const HomePageHeader = () => (
+const HomePageHeader = ({ selectedRowKeys }) => (
   <Row gutter={16}>
     <Col
       className="gutter-row"
@@ -18,7 +19,10 @@ const HomePageHeader = () => (
       sm={{ span: 12, offset: 0 }}
     >
       <div className={styles.controls}>
-        <ScenarioUploadButton/>
+        <Space direction='horizontal'>
+          <ScenarioUploadButton/>
+          <ScenarioComparisonButton selectedRowKeys={selectedRowKeys}/>
+        </Space>
       </div>
     </Col>
   </Row>
