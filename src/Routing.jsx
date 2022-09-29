@@ -4,7 +4,7 @@ import HomePage from "./pages/home/HomePage";
 import DetailPage from "./pages/detail/DetailPage";
 import { routes } from "./routes";
 import NotFoundPage from "./pages/notfound/NotFoundPage";
-import ComparisonPage from "./pages/comparison-demo/ComparisonPage";
+import ComparisonPage from "./pages/comparison/ComparisonPage";
 
 const Routing = () => {
   return (
