@@ -9,7 +9,7 @@ origins = [
     "http://localhost",
     "http://localhost:5173",
     "http://localhost:8080",
-    "https://energy-explorer.netlify.app"
+    "https://energy-explorer.netlify.app",
 ]
 
 app.add_middleware(
@@ -23,6 +23,7 @@ app.add_middleware(
 router = APIRouter()
 router.include_router(scenario.router)
 app.include_router(router)
+
 
 @app.get("/")
 def read_root():
