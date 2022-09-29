@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Radio, Space, Typography } from "antd";
 
 import ApplicationWrapper from "../../components/ApplicationWrapper";
@@ -15,6 +15,8 @@ import PolarChart, {
 } from "../../components/PolarChart";
 import AreaChart, { formatMonthlyEnergyMix } from "../../components/AreaChart";
 import { API_HOST } from "../../config";
+import { useLocation } from "react-router";
+import { getSearchQuery } from "../../utils/url";
 
 const timesOfYear = [
   {
@@ -41,18 +43,11 @@ async function fetchScenario(key) {
   }
 }
 
-const ids = [
-  "co2-0_no_elec_imports_2020",
-  "co2-25_ elec_imports_2050",
-  "co2-20_ elec_imports_2050",
-  "co2-10_ elec_imports_2050",
-  "co2-5_ elec_imports_2050",
-  "co2-0_ elec_imports_2050",
-  "co2--5_ elec_imports_2050",
-];
 const ComparisonPage = () => {
   const [timeOfYear, setTimeOfYear] = useState("yearValue");
   const [scenarioData, setScenarioData] = useState(null);
+  const { search } = useLocation()
+  const ids = useMemo(() => Object.values(getSearchQuery(search)), [])
 
   const onChangeRadio = useCallback(({ target }) => {
     setTimeOfYear(target.value);
