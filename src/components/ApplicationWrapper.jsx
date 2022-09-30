@@ -5,9 +5,9 @@ import styles from './ApplicationWrapper.module.css'
 import { Link } from 'react-router-dom'
 import { routes } from '../routes'
 
-const { Header, Content } = Layout
+const { Header, Content, Sider } = Layout
 
-const ApplicationWrapper = ({ children }) => (
+const ApplicationWrapper = ({ children, renderSider, renderContentSider }) => (
   <Layout>
     <Header>
       <Space direction='horizontal'>
@@ -17,9 +17,15 @@ const ApplicationWrapper = ({ children }) => (
       </Space>
     </Header>
     <Layout className={styles.layout}>
-      <Content className={styles.content}>
-        {children}
-      </Content>
+      {renderSider && <Sider collapsible width={200} className="site-layout-background">
+        {renderSider()}
+      </Sider>}
+      <Layout className={styles.contentContainer}>
+        <Content className={styles.content}>
+          {children}
+        </Content>
+        {renderContentSider && renderContentSider(styles)}
+      </Layout>
     </Layout>
   </Layout>
 )
