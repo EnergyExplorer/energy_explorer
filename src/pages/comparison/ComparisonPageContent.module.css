@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.container .title {
+  line-height: 50px;
+  margin-bottom: 0;
+}
+
+.titleRadio {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}

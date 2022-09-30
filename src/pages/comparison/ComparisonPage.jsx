@@ -1,35 +1,14 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Radio, Space, Typography } from "antd";
-
+import React, { useEffect, useState, useMemo } from "react";
+import { Layout, Typography } from "antd";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
-import scenarioTitles from "../../scenarioTitleMap.json";
-
-import styles from "./ComparisonPage.module.css";
-import BarChart, {
-  formatImportsMultipleScenarios,
-} from "../../components/BarChart";
-import PolarChart, {
-  formatWinterSummerComparison,
-} from "../../components/PolarChart";
-import AreaChart, { formatMonthlyEnergyMix } from "../../components/AreaChart";
 import { API_HOST } from "../../config";
 import { useLocation } from "react-router";
 import { getSearchQuery } from "../../utils/url";
+import EnergyOutlookMenu, { energyOutlookItems } from "./EnergyOutlookMenu";
+import ComparisonPageContent from "./ComparisonPageContent";
 
-const timesOfYear = [
-  {
-    label: "Winter",
-    value: "winterValue",
-  },
-  {
-    label: "Summer",
-    value: "summerValue",
-  },
-  {
-    label: "Year",
-    value: "yearValue",
-  },
-];
+const { Title } = Typography
+const { Sider } = Layout
 
 async function fetchScenario(key) {
   try {
@@ -42,17 +21,12 @@ async function fetchScenario(key) {
 }
 
 const ComparisonPage = () => {
-  const [timeOfYear, setTimeOfYear] = useState("yearValue");
   const [scenarioData, setScenarioData] = useState(null);
   const { search } = useLocation()
   const ids = useMemo(() => Object.values(getSearchQuery(search)), [])
 
-  const onChangeRadio = useCallback(({ target }) => {
-    setTimeOfYear(target.value);
-  }, []);
-
   useEffect(() => {
-    (async () => {
+    setTimeout(async () => {
       const scenarioList = await Promise.all(
         ids.map(async (id) => {
           return (await fetchScenario(id)) || [];
@@ -60,61 +34,26 @@ const ComparisonPage = () => {
       );
       const scenarios = scenarioList.flat();
       setScenarioData(scenarios);
-    })();
-  }, [ids]);
+    }, 100)
+  }, [ids])
 
-  if (scenarioData === null) {
-    return null;
-  }
+  const [slideKey, setSlidekey] = useState(energyOutlookItems[0].key)
 
   return (
-    <ApplicationWrapper>
-      <Typography.Title level={1}>Scenario comparison</Typography.Title>
-      <Radio.Group size="large" value={timeOfYear} onChange={onChangeRadio} className={styles['year-selector']}>
-        {timesOfYear.map(({ value, label }) => (
-          <Radio.Button key={value} value={value}>
-            {label}
-          </Radio.Button>
-        ))}
-      </Radio.Group>
-      <section>
-        <BarChart
-          series={formatImportsMultipleScenarios(scenarioData, timeOfYear)}
-        />
-      </section>
-      <section className={styles["side-by-side"]}>
-        {scenarioData.map((scenario) => {
-          return (
-            <article key={scenario.key}>
-              <Space
-                className={styles.container}
-                direction="vertical"
-                size="large"
-              >
-                <Space direction="vertical" size="middle">
-                  <Typography.Title level={2}>
-                    {scenarioTitles[scenario.name]} (GWh)
-                  </Typography.Title>
-                </Space>
-                <section className={styles["small-diagrams"]}>
-                  <div>
-                    <Typography.Title level={3}>
-                      Winter-Summer Energy Mix
-                    </Typography.Title>
-                    <PolarChart
-                      scenario={formatWinterSummerComparison(scenario)}
-                    />
-                  </div>
-                </section>
-                <Typography.Title level={3}>
-                  Electricity mix over a year
-                </Typography.Title>
-                <AreaChart series={formatMonthlyEnergyMix(scenario)} />
-              </Space>
-            </article>
-          );
-        })}
-      </section>
+    <ApplicationWrapper
+      renderContentSider={styles => (
+        <Sider className={styles.contentSide} width={300}>
+          <Title level={3}>Energy Outlooks</Title>
+          <EnergyOutlookMenu
+            onSelect={setSlidekey}
+            defaultSelectedKey={slideKey}
+          />
+        </Sider>
+      )}
+    >
+      {scenarioData && (
+        <ComparisonPageContent scenarioData={scenarioData} slideKey={slideKey}/>
+      )}
     </ApplicationWrapper>
   );
 };
