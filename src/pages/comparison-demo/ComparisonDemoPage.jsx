@@ -2,9 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Radio, Space, Typography } from "antd";
 
 import ApplicationWrapper from "../../components/ApplicationWrapper";
-import BackButton from "../../components/BackButton";
 import scenarioTitles from "../../scenarioTitleMap.json";
-import { routes } from "../../routes";
 
 import styles from "./ComparisonDemoPage.module.css";
 import BarChart, {
@@ -76,7 +74,6 @@ const ComparisonDemoPage = () => {
 
   return (
     <ApplicationWrapper>
-      <BackButton href={routes.home} />
       <Typography.Title level={1}>Scenario comparison</Typography.Title>
       <Radio.Group size="large" value={timeOfYear} onChange={onChangeRadio} className={styles['year-selector']}>
         {timesOfYear.map(({ value, label }) => (
