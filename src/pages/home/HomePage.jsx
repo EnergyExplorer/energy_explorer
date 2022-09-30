@@ -88,7 +88,7 @@ const HomePage = () => {
   }, [])
 
   return (
-    <ApplicationWrapper>
+    <ApplicationWrapper pageTitle='Available scenarios'>
       <HomePageHeader selectedRowKeys={selectedRowKeys}/>
       <ScenarioTable
         scenarioSummary={scenarioSummary}
