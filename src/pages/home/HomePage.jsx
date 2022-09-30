@@ -1,13 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Table, Tooltip } from "antd";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Table } from 'antd';
+import { Link, useLocation } from "react-router-dom";
 import HomePageHeader from "./HomePageHeader";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 import StatCircle from "../../components/StatCircle";
 import scenarioTitles from "../../scenarioTitleMap.json";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { routes } from "../../routes";
 import { API_HOST } from "../../config";
+import ScenarioTable from "./ScenarioTable";
+import { getSearchQuery } from "../../utils/url";
 
 const { Column } = Table;
 
@@ -79,36 +80,21 @@ const HomePage = () => {
     });
   }, [scenarioSummary]);
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
-  const rowSelection = useMemo(() => ({
-    columnTitle: <Tooltip
-      placement="topRight"
-      title={<span>Select max 3 scenarios to compare</span>}
-    >
-      <InfoCircleOutlined/>
-    </Tooltip>,
-    selectedRowKeys,
-    onChange: newSelectedRowKeys => { setSelectedRowKeys(newSelectedRowKeys) },
-    getCheckboxProps: record => {
-      console.log(record)
-      return {
-        disabled: (
-          !selectedRowKeys.find(selectedRow => selectedRow === record.key)
-          && selectedRowKeys.length >= 3), // Column configuration not to be checked
-        name: record.name,
-      }
-    },
-    hideSelectAll: true,
-  }), [selectedRowKeys]);
+  const { search } = useLocation()
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  useEffect(() => {
+    const { scenario_0, scenario_1, scenario_2 } = getSearchQuery(search)
+    setSelectedRowKeys([scenario_0, scenario_1, scenario_2].filter(sce => sce))
+  }, [])
 
   return (
     <ApplicationWrapper>
       <HomePageHeader selectedRowKeys={selectedRowKeys}/>
-      <Table
-        dataSource={scenarioSummary}
-        pagination={false}
-        rowSelection={rowSelection}>
+      <ScenarioTable
+        scenarioSummary={scenarioSummary}
+        selectedRowKeys={selectedRowKeys}
+        setSelectedRowKeys={setSelectedRowKeys}
+      >
         <Column
           title='Scenario'
           dataIndex="name"
@@ -181,7 +167,7 @@ const HomePage = () => {
           }}
           sortDirections={["descend", "ascend", "descend"]}
         />
-      </Table>
+      </ScenarioTable>
     </ApplicationWrapper>
   );
 };
