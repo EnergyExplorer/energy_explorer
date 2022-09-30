@@ -3,11 +3,9 @@ import { useParams } from "react-router-dom";
 import { Radio, Space, Typography } from "antd";
 
 import ApplicationWrapper from "../../components/ApplicationWrapper";
-import BackButton from "../../components/BackButton";
 import ScenariosSankyChart from "./ScenariosSankyChart";
 import scenarioTitles from "../../scenarioTitleMap.json";
 import getSankyChartData from "./getSankyChartData.js";
-import { routes } from "../../routes";
 
 import styles from "./DetailPage.module.css";
 import PieChart, { formatImportsPieChart } from "../../components/PieChart";
@@ -60,9 +58,6 @@ const DetailPage = () => {
 
   return (
     <ApplicationWrapper>
-      <BackButton href={routes.home} />
-      <br />
-      <br />
       <div className={styles.container}>
         <Space className={styles.container} direction="vertical" size="large">
           <Space direction="vertical" size="middle">
