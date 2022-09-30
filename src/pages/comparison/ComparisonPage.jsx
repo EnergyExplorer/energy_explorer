@@ -41,6 +41,7 @@ const ComparisonPage = () => {
 
   return (
     <ApplicationWrapper
+      pageTitle='Scenario Comparison'
       renderContentSider={styles => (
         <Sider className={styles.contentSide} width={300}>
           <Title level={3}>Energy Outlooks</Title>

@@ -1,19 +1,26 @@
 import React from 'react'
 import { Layout, Space } from 'antd'
-import Brand from './Brand'
-import styles from './ApplicationWrapper.module.css'
 import { Link } from 'react-router-dom'
+import Brand from './Brand'
 import { routes } from '../routes'
+import styles from './ApplicationWrapper.module.css'
 
 const { Header, Content, Sider } = Layout
 
-const ApplicationWrapper = ({ children, renderSider, renderContentSider }) => (
+const ApplicationWrapper = ({
+    children,
+    pageTitle,
+    renderSider,
+    renderContentSider
+  }) => (
   <Layout>
     <Header>
       <Space direction='horizontal'>
         <Link to={routes.home}>
           <Brand/>
         </Link>
+        {pageTitle &&
+          <span className={styles.title}>{'  /  '}{pageTitle}</span>}
       </Space>
     </Header>
     <Layout className={styles.layout}>
