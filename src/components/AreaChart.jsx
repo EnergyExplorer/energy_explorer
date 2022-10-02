@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { Radio, Select, Space } from "antd";
-const { Option } = Select;
 import styles from "./AreaChart.module.css";
+import MonthlyEnergyMixChartControls from "./MonthlyEnergyMixChartControls";
 
 function getChartOptions(series, stackingMode, chartType) {
   return {
@@ -91,71 +90,27 @@ function order(series, selectedOrder) {
 
 const AreaChart = ({ series }) => {
   const [stackingMode, setStackingMode] = useState("normal");
-  const [chartType, setChartType] = useState("area");
-
   const onChangeStackingMode = useCallback(({ target }) => {
     setStackingMode(target.value);
   }, []);
+
+  const [chartType, setChartType] = useState("area");
   const onChangeChartType = useCallback(({ target }) => {
     setChartType(target.value);
   }, []);
 
-  const [orderOptions, setOrderOptions] = useState(
-    calculateOrderOptions(series)
-  );
-
-  useEffect(() => {
-    setOrderOptions(calculateOrderOptions(series));
-  }, [series]);
-
-  const [selectedOrder, setSelectedOrder] = useState(orderOptions[0][0]);
-
-  const [orderedSeries, setOrderedSeries] = useState(
-    order(series, selectedOrder)
-  );
-
-  useEffect(() => {
-    setOrderedSeries(order(series, selectedOrder));
-  }, [series, selectedOrder]);
-
-  const [chartOptions, setChartOptions] = useState(
-    getChartOptions(orderedSeries, stackingMode, chartType)
-  );
-  useEffect(() => {
-    setChartOptions(getChartOptions(orderedSeries, stackingMode, chartType));
-  }, [orderedSeries, stackingMode, chartType]);
+  const chartOptions = useMemo(() => (
+    getChartOptions(series, stackingMode, chartType)
+  ), [series, stackingMode, chartType])
 
   return (
     <section className={styles.container}>
-      <Space size="small">
-        <Radio.Group
-          size="medium"
-          value={stackingMode}
-          onChange={onChangeStackingMode}
-        >
-          <Radio.Button value="normal">Absolute</Radio.Button>
-          <Radio.Button value="percent">Relative (%)</Radio.Button>
-        </Radio.Group>
-        <Radio.Group
-          size="medium"
-          value={chartType}
-          onChange={onChangeChartType}
-        >
-          <Radio.Button value="area">Area</Radio.Button>
-          <Radio.Button value="column">Bar</Radio.Button>
-        </Radio.Group>
-        <Select
-          defaultValue={orderOptions[0][1]}
-          value={selectedOrder}
-          onChange={setSelectedOrder}
-        >
-          {orderOptions.map(([value, label]) => (
-            <Option key={value} value={value}>
-              {label}
-            </Option>
-          ))}
-        </Select>
-      </Space>
+      <MonthlyEnergyMixChartControls
+        chartType={chartType}
+        stackingMode={stackingMode}
+        onChangeStackingMode={onChangeStackingMode}
+        onChangeChartType={onChangeChartType}
+      />
       <HighchartsReact
         allowChartUpdate={true}
         immutable={false}

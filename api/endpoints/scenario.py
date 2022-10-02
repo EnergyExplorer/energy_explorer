@@ -4,6 +4,7 @@ import pandas
 from fastapi import APIRouter, UploadFile
 from importer import main
 from io import BytesIO
+from constants.electricity_source_order import electricity_source_order
 
 router = APIRouter(
     tags=[],
@@ -27,6 +28,33 @@ def get_scenario(id):
     load_scenarios()
     print(scenario_db.get(id))
     return scenario_db.get(id)
+    # return format_scenario(scenario_db.get(id))
+
+def format_scenario(scenario):
+    print(scenario)
+    return scenario
+    # energy_sources = format_energy_sources(scenario["data"]["energySources"])
+    # return {
+    #     "key": scenario["key"],
+    #     "name": scenario["name"],
+    #     "data": {
+    #         **scenario["data"],
+    #         "energySources": energy_sources
+    #     }
+    # }
+
+def format_energy_sources(energy_sources):
+    # Currently, only electricity sources have been ordered by the data team.
+    # However, even if all apparently known sources were to be defined, some
+    # unknown sources may still be added to the imported excel.
+    # Therefore the ordered sources list and the sources list from the data set
+    # should be merged, then filtered so that the list contains only energy
+    # sources with data, while the right source order is maintained.
+    sources_ordered = electricity_source_order.copy()
+    for source in energy_sources:
+        if source not in sources_ordered:
+            sources_ordered.append(source)
+    return filter(lambda source: source in energy_sources, sources_ordered)
 
 
 def format_scenario_list_response(scenario):
@@ -74,8 +102,9 @@ def load_scenarios():
         filename for filename in os.listdir("./data") if filename.endswith(".json")
     ]
     for scenario in scenario_files:
-        scenario_info = format_scenario(scenario)
+        scenario_info = format_json_scenario(scenario)
         scenario_db[scenario_info["key"]] = scenario_info
+
 
 
 def format_json_scenario(scenario_json):
@@ -114,5 +143,3 @@ def upload_file(file: UploadFile):
         return
     for (scenario, year), data in all_scenarios.groupby(["scenario", "year"]):
         main.import_scenario(scenario, year, data.iloc[:, 2:])
-
-format_scenario = format_json_scenario
