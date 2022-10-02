@@ -6,11 +6,8 @@ const { Option } = Select;
 const MonthlyEnergyMixChartControls = ({
   chartType,
   stackingMode,
-  orderOptions,
-  selectedOrder,
   onChangeStackingMode,
-  onChangeChartType,
-  setSelectedOrder
+  onChangeChartType
 }) => {
   return (
     <Space size="small">
@@ -30,17 +27,6 @@ const MonthlyEnergyMixChartControls = ({
         <Radio.Button value="area">Area</Radio.Button>
         <Radio.Button value="column">Bar</Radio.Button>
       </Radio.Group>
-      <Select
-        defaultValue={orderOptions[0][1]}
-        value={selectedOrder}
-        onChange={setSelectedOrder}
-      >
-        {orderOptions.map(([value, label]) => (
-          <Option key={value} value={value}>
-            {label}
-          </Option>
-        ))}
-      </Select>
     </Space>
   )
 }
