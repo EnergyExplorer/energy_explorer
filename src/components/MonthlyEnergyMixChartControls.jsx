@@ -1,6 +1,13 @@
 import React from 'react'
+import { Radio, Select, Space } from "antd";
+
+const { Option } = Select;
 
 const MonthlyEnergyMixChartControls = ({
+  chartType,
+  stackingMode,
+  orderOptions,
+  selectedOrder,
   onChangeStackingMode,
   onChangeChartType,
   setSelectedOrder

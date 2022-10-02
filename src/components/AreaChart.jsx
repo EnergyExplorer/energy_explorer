@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { Radio, Select, Space } from "antd";
-const { Option } = Select;
 import styles from "./AreaChart.module.css";
+import MonthlyEnergyMixChartControls from "./MonthlyEnergyMixChartControls";
 
 function getChartOptions(series, stackingMode, chartType) {
   return {
@@ -103,7 +102,6 @@ const AreaChart = ({ series }) => {
   const [orderOptions, setOrderOptions] = useState(
     calculateOrderOptions(series)
   );
-
   useEffect(() => {
     setOrderOptions(calculateOrderOptions(series));
   }, [series]);
@@ -113,7 +111,6 @@ const AreaChart = ({ series }) => {
   const [orderedSeries, setOrderedSeries] = useState(
     order(series, selectedOrder)
   );
-
   useEffect(() => {
     setOrderedSeries(order(series, selectedOrder));
   }, [series, selectedOrder]);
@@ -128,6 +125,10 @@ const AreaChart = ({ series }) => {
   return (
     <section className={styles.container}>
       <MonthlyEnergyMixChartControls
+        chartType={chartType}
+        stackingMode={stackingMode}
+        orderOptions={orderOptions}
+        selectedOrder={selectedOrder}
         onChangeStackingMode={onChangeStackingMode}
         onChangeChartType={onChangeChartType}
         setSelectedOrder={setSelectedOrder}
