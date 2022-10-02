@@ -17,7 +17,10 @@ scenario_db = {}
 def list_scenarios():
     load_scenarios()
     scenarios = [
-        format_scenario_list_response(scenario) for scenario in scenario_db.values()
+        {
+            **format_scenario_totals(scenario),
+            **{ "key": scenario["name"], "name": scenario["name"] }
+        } for scenario in scenario_db.values()
     ]
     return scenarios
 
@@ -28,15 +31,13 @@ def get_scenario(id):
     print(scenario_db.get(id))
     return scenario_db.get(id)
 
-
-def format_scenario_list_response(scenario):
+def format_scenario_totals(scenario):
     total = calculate_total_energy(scenario)
 
     imports = calculate_imported_energy(scenario)
     domestic = 1 - (imports / total)
+
     return {
-        "key": scenario["key"],
-        "name": scenario["name"],
         "co2": scenario["data"]["CO2|Total"]["value"],
         "cost": scenario["data"]["Costs|System cost"]["value"],
         "domestic": domestic,
