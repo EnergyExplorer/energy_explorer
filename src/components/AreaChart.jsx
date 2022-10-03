@@ -71,23 +71,6 @@ export function formatMonthlyEnergyMix(scenario) {
     .sort(compareLargestContributor);
 }
 
-function calculateOrderOptions(series) {
-  const options = series.map(({ name }) => [name, name]);
-  return [...options].reverse();
-}
-
-function order(series, selectedOrder) {
-  return [...series].sort((a, b) => {
-    if (a.name == selectedOrder) {
-      return 1;
-    }
-    if (b.name == selectedOrder) {
-      return -1;
-    }
-    return compareLargestContributor(a, b);
-  });
-}
-
 const AreaChart = ({ series }) => {
   const [stackingMode, setStackingMode] = useState("normal");
   const onChangeStackingMode = useCallback(({ target }) => {
