@@ -24,14 +24,6 @@ function getChartOptions(series, stackingMode, chartType) {
         "Dec",
       ],
     },
-    yAxis: {
-      title: {
-        text:
-          stackingMode == "normal"
-            ? "Energy in GWh"
-            : "Percentage of Energy mix",
-      },
-    },
     tooltip: {
       valueDecimals: 1,
       valueSuffix: " GWh",
@@ -41,10 +33,29 @@ function getChartOptions(series, stackingMode, chartType) {
         stacking: stackingMode,
       },
     },
-    series: series,
-  };
+    series: series
+  }
 }
 
+function getNormalStackedChartOptions (series, stackingMode, chartType) {
+  return {
+    ...getChartOptions(series, stackingMode, chartType),
+    yAxis: {
+      title: { text: "Energy in GWh" },
+      tickInterval: 1000,
+    },
+  }
+}
+
+function getPercentStackedChartOptions (series, stackingMode, chartType) {
+  return {
+    ...getChartOptions(series, stackingMode, chartType),
+    yAxis: {
+      title: { text: "Percentage of energy mix" },
+      tickInterval: undefined,
+      max: undefined
+    }
+  }
 }
 
 const sourceColors = {
@@ -87,7 +98,9 @@ const AreaChart = ({ series }) => {
   }, []);
 
   const chartOptions = useMemo(() => (
-    getChartOptions(series, stackingMode, chartType)
+    stackingMode === 'percent'
+      ? getPercentStackedChartOptions(series, stackingMode, chartType)
+      : getNormalStackedChartOptions(series, stackingMode, chartType)
   ), [series, stackingMode, chartType])
 
   return (
