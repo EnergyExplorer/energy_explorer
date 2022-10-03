@@ -24,7 +24,10 @@ const EnergyOutlookCarousel = ({
         <PolarChart scenario={formatWinterSummerComparison(focusedScenario)}/>
       </div>
       <div>
-        <AreaChart series={formatMonthlyEnergyMix(focusedScenario)} />
+        <AreaChart
+          scenarioData={scenarioData}
+          series={formatMonthlyEnergyMix(focusedScenario)}
+        />
       </div>
     </Carousel>
   )

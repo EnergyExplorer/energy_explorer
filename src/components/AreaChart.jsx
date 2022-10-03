@@ -4,7 +4,7 @@ import HighchartsReact from "highcharts-react-official";
 import styles from "./AreaChart.module.css";
 import MonthlyEnergyMixChartControls from "./MonthlyEnergyMixChartControls";
 
-function getChartOptions(series, stackingMode, chartType) {
+function getChartOptions(series, { stackingMode, chartType }) {
   return {
     chart: { type: chartType },
     title: { text: "" },
@@ -24,33 +24,50 @@ function getChartOptions(series, stackingMode, chartType) {
         "Dec",
       ],
     },
-    yAxis: {
-      title: {
-        text:
-          stackingMode == "normal"
-            ? "Energy in GWh"
-            : "Percentage of Energy mix",
-      },
-    },
     tooltip: {
       valueDecimals: 1,
       valueSuffix: " GWh",
     },
     plotOptions: {
       [chartType]: {
-        stacking: stackingMode,
+        stacking: stackingMode
       },
     },
-    series: series,
-  };
+    series: series
+  }
 }
 
-function sum(a, b) {
-  return a + b;
+function getNormalStackedChartOptions (series, { max, ...options }) {
+  return {
+    ...getChartOptions(series, options),
+    yAxis: {
+      title: { text: "Energy in GWh" },
+      tickInterval: 1000,
+      max
+    },
+  }
 }
 
-function compareLargestContributor(a, b) {
-  return a.data.reduce(sum) - b.data.reduce(sum);
+function getPercentStackedChartOptions (series, options) {
+  return {
+    ...getChartOptions(series, options),
+    yAxis: {
+      title: { text: "Percentage of energy mix" },
+      tickInterval: undefined,
+      max: undefined
+    }
+  }
+}
+
+const sourceColors = {
+  Wood: "#9F4F2B",
+  Waste: "#99AA11",
+  Wind: "#99BBCC",
+  Solar: "#FFEE11",
+  'Hydro RoR': "#7BDDC6",
+  'Hydro Dams': "#1A428B",
+  Imports: "#99AAAA",
+  Gas: "#CC77DD"
 }
 
 export function formatMonthlyEnergyMix(scenario) {
@@ -67,28 +84,10 @@ export function formatMonthlyEnergyMix(scenario) {
       };
     })
     .filter((series) => series.data.some((value) => value != 0))
-    .map((serie, index) => ({ ...serie, colorIndex: index }))
-    .sort(compareLargestContributor);
+    .map(series => ({ ...series, color: sourceColors[series.name] }))
 }
 
-function calculateOrderOptions(series) {
-  const options = series.map(({ name }) => [name, name]);
-  return [...options].reverse();
-}
-
-function order(series, selectedOrder) {
-  return [...series].sort((a, b) => {
-    if (a.name == selectedOrder) {
-      return 1;
-    }
-    if (b.name == selectedOrder) {
-      return -1;
-    }
-    return compareLargestContributor(a, b);
-  });
-}
-
-const AreaChart = ({ series }) => {
+const AreaChart = ({ series, scenarioData }) => {
   const [stackingMode, setStackingMode] = useState("normal");
   const onChangeStackingMode = useCallback(({ target }) => {
     setStackingMode(target.value);
@@ -99,8 +98,27 @@ const AreaChart = ({ series }) => {
     setChartType(target.value);
   }, []);
 
+  const max = useMemo(() => {
+    const maxNumber = scenarioData
+      .map(scenario => formatMonthlyEnergyMix(scenario))
+      .reduce((scenarioMax, energySources) => {
+        const currScenarioMax = energySources[0].data.reduce(
+          (aggregate, _source, columnIndex) => {
+            const xAxisValues = energySources.reduce(
+              (xAxisAggregate, { data }) => {
+                return xAxisAggregate += data[columnIndex]
+              }, 0)
+            return Math.max(aggregate, xAxisValues)
+          }, 0)
+        return Math.max(scenarioMax, currScenarioMax)
+      }, 0)
+    return (Math.round(maxNumber / 1000) * 1000) + 1000
+  }, [scenarioData])
+
   const chartOptions = useMemo(() => (
-    getChartOptions(series, stackingMode, chartType)
+    stackingMode === 'percent'
+      ? getPercentStackedChartOptions(series, { stackingMode, chartType })
+      : getNormalStackedChartOptions(series, { stackingMode, chartType, max })
   ), [series, stackingMode, chartType])
 
   return (
