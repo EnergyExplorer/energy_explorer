@@ -33,7 +33,6 @@ def get_scenario(id):
 
 def format_scenario(scenario):
     energy_sources = format_energy_sources(scenario["data"]["energySources"])
-    print('then here ', energy_sources)
     data = scenario["data"]
     return {
         "key": scenario["key"],
@@ -110,21 +109,6 @@ def format_json_scenario(scenario_json):
         scenario["key"] = scenario["name"]
         return scenario
 
-
-def format_csv_scenario(scenario_csv):
-    df = pandas.read_csv(f"data/{scenario_csv}", header=None)
-    print(df)
-    print(df[df[0] == "Electricity|Imports"].squeeze()[1:])
-    name = scenario_csv.replace(".csv", "")
-    return {
-        "key": name,
-        "name": f"Scenario {name}",
-        "co2": df[df[0] == "CO2|Total"].squeeze().iloc[1],
-        "cost": df[df[0] == "Costs|System cost"].squeeze().iloc[1],
-        "domestic": pandas.to_numeric(
-            df[df[0] == "Electricity|Imports"].squeeze()[1:], errors="ignore"
-        ).sum(),
-    }
 
 @router.post("/upload")
 def upload_file(file: UploadFile):
