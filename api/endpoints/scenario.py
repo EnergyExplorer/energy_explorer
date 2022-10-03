@@ -29,22 +29,17 @@ def list_scenarios():
 @router.get("/{id}")
 def get_scenario(id):
     load_scenarios()
-    print(scenario_db.get(id))
-    return scenario_db.get(id)
-    # return format_scenario(scenario_db.get(id))
+    return format_scenario(scenario_db.get(id))
 
 def format_scenario(scenario):
-    print(scenario)
-    return scenario
-    # energy_sources = format_energy_sources(scenario["data"]["energySources"])
-    # return {
-    #     "key": scenario["key"],
-    #     "name": scenario["name"],
-    #     "data": {
-    #         **scenario["data"],
-    #         "energySources": energy_sources
-    #     }
-    # }
+    energy_sources = format_energy_sources(scenario["data"]["energySources"])
+    print('then here ', energy_sources)
+    data = scenario["data"]
+    return {
+        "key": scenario["key"],
+        "name": scenario["name"],
+        "data": { **data, "energySources": energy_sources }
+    }
 
 def format_energy_sources(energy_sources):
     # Currently, only electricity sources have been ordered by the data team.
@@ -57,7 +52,8 @@ def format_energy_sources(energy_sources):
     for source in energy_sources:
         if source not in sources_ordered:
             sources_ordered.append(source)
-    return filter(lambda source: source in energy_sources, sources_ordered)
+
+    return [s for s in sources_ordered if s in energy_sources]
 
 def format_scenario_totals(scenario):
     total = calculate_total_energy(scenario)
