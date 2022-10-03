@@ -45,12 +45,8 @@ function getChartOptions(series, stackingMode, chartType) {
   };
 }
 
-function sum(a, b) {
-  return a + b;
 }
 
-function compareLargestContributor(a, b) {
-  return a.data.reduce(sum) - b.data.reduce(sum);
 }
 
 export function formatMonthlyEnergyMix(scenario) {
@@ -68,7 +64,6 @@ export function formatMonthlyEnergyMix(scenario) {
     })
     .filter((series) => series.data.some((value) => value != 0))
     .map((serie, index) => ({ ...serie, colorIndex: index }))
-    .sort(compareLargestContributor);
 }
 
 }
