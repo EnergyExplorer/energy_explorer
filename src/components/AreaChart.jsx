@@ -4,7 +4,7 @@ import HighchartsReact from "highcharts-react-official";
 import styles from "./AreaChart.module.css";
 import MonthlyEnergyMixChartControls from "./MonthlyEnergyMixChartControls";
 
-function getChartOptions(series, stackingMode, chartType) {
+function getChartOptions(series, { stackingMode, chartType }) {
   return {
     chart: { type: chartType },
     title: { text: "" },
@@ -30,26 +30,27 @@ function getChartOptions(series, stackingMode, chartType) {
     },
     plotOptions: {
       [chartType]: {
-        stacking: stackingMode,
+        stacking: stackingMode
       },
     },
     series: series
   }
 }
 
-function getNormalStackedChartOptions (series, stackingMode, chartType) {
+function getNormalStackedChartOptions (series, { max, ...options }) {
   return {
-    ...getChartOptions(series, stackingMode, chartType),
+    ...getChartOptions(series, options),
     yAxis: {
       title: { text: "Energy in GWh" },
       tickInterval: 1000,
+      max
     },
   }
 }
 
-function getPercentStackedChartOptions (series, stackingMode, chartType) {
+function getPercentStackedChartOptions (series, options) {
   return {
-    ...getChartOptions(series, stackingMode, chartType),
+    ...getChartOptions(series, options),
     yAxis: {
       title: { text: "Percentage of energy mix" },
       tickInterval: undefined,
@@ -86,7 +87,7 @@ export function formatMonthlyEnergyMix(scenario) {
     .map(series => ({ ...series, color: sourceColors[series.name] }))
 }
 
-const AreaChart = ({ series }) => {
+const AreaChart = ({ series, scenarioData }) => {
   const [stackingMode, setStackingMode] = useState("normal");
   const onChangeStackingMode = useCallback(({ target }) => {
     setStackingMode(target.value);
@@ -97,10 +98,27 @@ const AreaChart = ({ series }) => {
     setChartType(target.value);
   }, []);
 
+  const max = useMemo(() => {
+    const maxNumber = scenarioData
+      .map(scenario => formatMonthlyEnergyMix(scenario))
+      .reduce((scenarioMax, energySources) => {
+        const currScenarioMax = energySources[0].data.reduce(
+          (aggregate, _source, columnIndex) => {
+            const xAxisValues = energySources.reduce(
+              (xAxisAggregate, { data }) => {
+                return xAxisAggregate += data[columnIndex]
+              }, 0)
+            return Math.max(aggregate, xAxisValues)
+          }, 0)
+        return Math.max(scenarioMax, currScenarioMax)
+      }, 0)
+    return (Math.round(maxNumber / 1000) * 1000) + 1000
+  }, [scenarioData])
+
   const chartOptions = useMemo(() => (
     stackingMode === 'percent'
-      ? getPercentStackedChartOptions(series, stackingMode, chartType)
-      : getNormalStackedChartOptions(series, stackingMode, chartType)
+      ? getPercentStackedChartOptions(series, { stackingMode, chartType })
+      : getNormalStackedChartOptions(series, { stackingMode, chartType, max })
   ), [series, stackingMode, chartType])
 
   return (
