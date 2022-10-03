@@ -47,6 +47,15 @@ function getChartOptions(series, stackingMode, chartType) {
 
 }
 
+const sourceColors = {
+  Wood: "#9F4F2B",
+  Waste: "#99AA11",
+  Wind: "#99BBCC",
+  Solar: "#FFEE11",
+  'Hydro RoR': "#7BDDC6",
+  'Hydro Dams': "#1A428B",
+  Imports: "#99AAAA",
+  Gas: "#CC77DD"
 }
 
 export function formatMonthlyEnergyMix(scenario) {
@@ -63,9 +72,7 @@ export function formatMonthlyEnergyMix(scenario) {
       };
     })
     .filter((series) => series.data.some((value) => value != 0))
-    .map((serie, index) => ({ ...serie, colorIndex: index }))
-}
-
+    .map(series => ({ ...series, color: sourceColors[series.name] }))
 }
 
 const AreaChart = ({ series }) => {
