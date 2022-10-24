@@ -99,7 +99,11 @@ const DetailPage = () => {
           <Typography.Title level={2}>
             Electricity mix over a year
           </Typography.Title>
-          <AreaChart series={formatMonthlyEnergyMix(scenarioData)} id={id} />
+          <AreaChart
+            series={formatMonthlyEnergyMix(scenarioData)}
+            scenarioData={[scenarioData]}
+            id={id}
+          />
         </Space>
       </div>
     </ApplicationWrapper>
