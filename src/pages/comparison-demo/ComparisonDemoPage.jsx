@@ -75,7 +75,12 @@ const ComparisonDemoPage = () => {
   return (
     <ApplicationWrapper>
       <Typography.Title level={1}>Scenario comparison</Typography.Title>
-      <Radio.Group size="large" value={timeOfYear} onChange={onChangeRadio} className={styles['year-selector']}>
+      <Radio.Group
+        size="large"
+        value={timeOfYear}
+        onChange={onChangeRadio}
+        className={styles["year-selector"]}
+      >
         {timesOfYear.map(({ value, label }) => (
           <Radio.Button key={value} value={value}>
             {label}
@@ -114,7 +119,10 @@ const ComparisonDemoPage = () => {
                 <Typography.Title level={3}>
                   Electricity mix over a year
                 </Typography.Title>
-                <AreaChart series={formatMonthlyEnergyMix(scenario)} />
+                <AreaChart
+                  series={formatMonthlyEnergyMix(scenario)}
+                  scenarioData={[scenario]}
+                />
               </Space>
             </article>
           );

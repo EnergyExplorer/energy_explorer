@@ -30,33 +30,33 @@ function getChartOptions(series, { stackingMode, chartType }) {
     },
     plotOptions: {
       [chartType]: {
-        stacking: stackingMode
+        stacking: stackingMode,
       },
     },
-    series: series
-  }
+    series: series,
+  };
 }
 
-function getNormalStackedChartOptions (series, { max, ...options }) {
+function getNormalStackedChartOptions(series, { max, ...options }) {
   return {
     ...getChartOptions(series, options),
     yAxis: {
       title: { text: "Energy in GWh" },
       tickInterval: 1000,
-      max
+      max,
     },
-  }
+  };
 }
 
-function getPercentStackedChartOptions (series, options) {
+function getPercentStackedChartOptions(series, options) {
   return {
     ...getChartOptions(series, options),
     yAxis: {
       title: { text: "Percentage of energy mix" },
       tickInterval: undefined,
-      max: undefined
-    }
-  }
+      max: undefined,
+    },
+  };
 }
 
 const sourceColors = {
@@ -64,11 +64,11 @@ const sourceColors = {
   Waste: "#99AA11",
   Wind: "#99BBCC",
   Solar: "#FFEE11",
-  'Hydro RoR': "#7BDDC6",
-  'Hydro Dams': "#1A428B",
+  "Hydro RoR": "#7BDDC6",
+  "Hydro Dams": "#1A428B",
   Imports: "#99AAAA",
-  Gas: "#CC77DD"
-}
+  Gas: "#CC77DD",
+};
 
 export function formatMonthlyEnergyMix(scenario) {
   return scenario.data.energySources
@@ -84,7 +84,7 @@ export function formatMonthlyEnergyMix(scenario) {
       };
     })
     .filter((series) => series.data.some((value) => value != 0))
-    .map(series => ({ ...series, color: sourceColors[series.name] }))
+    .map((series) => ({ ...series, color: sourceColors[series.name] }));
 }
 
 const AreaChart = ({ series, scenarioData }) => {
@@ -100,26 +100,36 @@ const AreaChart = ({ series, scenarioData }) => {
 
   const max = useMemo(() => {
     const maxNumber = scenarioData
-      .map(scenario => formatMonthlyEnergyMix(scenario))
+      .map((scenario) => formatMonthlyEnergyMix(scenario))
       .reduce((scenarioMax, energySources) => {
         const currScenarioMax = energySources[0].data.reduce(
           (aggregate, _source, columnIndex) => {
             const xAxisValues = energySources.reduce(
               (xAxisAggregate, { data }) => {
-                return xAxisAggregate += data[columnIndex]
-              }, 0)
-            return Math.max(aggregate, xAxisValues)
-          }, 0)
-        return Math.max(scenarioMax, currScenarioMax)
-      }, 0)
-    return (Math.round(maxNumber / 1000) * 1000) + 1000
-  }, [scenarioData])
+                return (xAxisAggregate += data[columnIndex]);
+              },
+              0
+            );
+            return Math.max(aggregate, xAxisValues);
+          },
+          0
+        );
+        return Math.max(scenarioMax, currScenarioMax);
+      }, 0);
+    return Math.round(maxNumber / 1000) * 1000 + 1000;
+  }, [scenarioData]);
 
-  const chartOptions = useMemo(() => (
-    stackingMode === 'percent'
-      ? getPercentStackedChartOptions(series, { stackingMode, chartType })
-      : getNormalStackedChartOptions(series, { stackingMode, chartType, max })
-  ), [series, stackingMode, chartType])
+  const chartOptions = useMemo(
+    () =>
+      stackingMode === "percent"
+        ? getPercentStackedChartOptions(series, { stackingMode, chartType })
+        : getNormalStackedChartOptions(series, {
+            stackingMode,
+            chartType,
+            max,
+          }),
+    [series, stackingMode, chartType]
+  );
 
   return (
     <section className={styles.container}>
