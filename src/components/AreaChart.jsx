@@ -60,14 +60,18 @@ function getPercentStackedChartOptions(series, options) {
 }
 
 const sourceColors = {
-  Wood: "#9F4F2B",
-  Waste: "#99AA11",
-  Wind: "#99BBCC",
-  Solar: "#FFEE11",
-  "Hydro RoR": "#7BDDC6",
-  "Hydro Dams": "#1A428B",
-  Imports: "#99AAAA",
-  Gas: "#CC77DD",
+  Wood: "#6BC72D",
+  Waste: "#58A325",
+  Wind: "#F2960E",
+  Solar: "#F5DD1B",
+  "Hydro RoR": "#0262AA",
+  "Hydro Dams": "#0377ca",
+  Imports: "#DDDDDD",
+  Gas: "#808080",
+  Nuclear: "#9751CB",
+  Biogas: "#87D850",
+  Hydrogen: "#03CBA0",
+  Geothermal: "#CF4832",
 };
 
 export function formatMonthlyEnergyMix(scenario) {
