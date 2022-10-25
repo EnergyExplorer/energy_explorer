@@ -31,6 +31,10 @@ function getChartOptions(series, { stackingMode, chartType }) {
     plotOptions: {
       [chartType]: {
         stacking: stackingMode,
+        marker: {
+          enabled: false,
+          symbol: "circle",
+        },
       },
     },
     series: series,
@@ -128,10 +132,10 @@ const AreaChart = ({ series, scenarioData }) => {
       stackingMode === "percent"
         ? getPercentStackedChartOptions(series, { stackingMode, chartType })
         : getNormalStackedChartOptions(series, {
-            stackingMode,
-            chartType,
-            max,
-          }),
+          stackingMode,
+          chartType,
+          max,
+        }),
     [series, stackingMode, chartType]
   );
 
