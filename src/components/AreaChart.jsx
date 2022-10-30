@@ -132,11 +132,11 @@ const AreaChart = ({ series, scenarioData }) => {
       stackingMode === "percent"
         ? getPercentStackedChartOptions(series, { stackingMode, chartType })
         : getNormalStackedChartOptions(series, {
-          stackingMode,
-          chartType,
-          max,
-        }),
-    [series, stackingMode, chartType]
+            stackingMode,
+            chartType,
+            max,
+          }),
+    [series, stackingMode, chartType, max]
   );
 
   return (
