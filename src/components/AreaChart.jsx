@@ -1,13 +1,15 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import styles from "./AreaChart.module.css";
-import MonthlyEnergyMixChartControls from "./MonthlyEnergyMixChartControls";
 
-function getChartOptions(series, { stackingMode, chartType }) {
+function getChartOptions(
+  series,
+  { stackingMode, chartType, title, showLegend = true }
+) {
   return {
     chart: { type: chartType },
-    title: { text: "" },
+    title: { text: title },
     xAxis: {
       categories: [
         "Jan",
@@ -23,6 +25,12 @@ function getChartOptions(series, { stackingMode, chartType }) {
         "Nov",
         "Dec",
       ],
+    },
+    legend: {
+      enabled: showLegend,
+      floating: true,
+      verticalAlign: "top",
+      y: 35,
     },
     tooltip: {
       valueDecimals: 1,
@@ -41,12 +49,13 @@ function getChartOptions(series, { stackingMode, chartType }) {
   };
 }
 
-function getNormalStackedChartOptions(series, { max, ...options }) {
+function getNormalStackedChartOptions(series, { max, showLegend, ...options }) {
   return {
-    ...getChartOptions(series, options),
+    ...getChartOptions(series, { showLegend, ...options }),
     yAxis: {
-      title: { text: "Energy in GWh" },
+      title: { text: showLegend ? "Energy in GWh" : "" },
       tickInterval: 1000,
+      labels: { enabled: showLegend },
       max,
     },
   };
@@ -56,7 +65,7 @@ function getPercentStackedChartOptions(series, options) {
   return {
     ...getChartOptions(series, options),
     yAxis: {
-      title: { text: "Percentage of energy mix" },
+      title: { text: options.showLegend ? "Percentage of energy mix" : "" },
       tickInterval: undefined,
       max: undefined,
     },
@@ -95,58 +104,35 @@ export function formatMonthlyEnergyMix(scenario) {
     .map((series) => ({ ...series, color: sourceColors[series.name] }));
 }
 
-const AreaChart = ({ series, scenarioData }) => {
-  const [stackingMode, setStackingMode] = useState("normal");
-  const onChangeStackingMode = useCallback(({ target }) => {
-    setStackingMode(target.value);
-  }, []);
-
-  const [chartType, setChartType] = useState("area");
-  const onChangeChartType = useCallback(({ target }) => {
-    setChartType(target.value);
-  }, []);
-
-  const max = useMemo(() => {
-    const maxNumber = scenarioData
-      .map((scenario) => formatMonthlyEnergyMix(scenario))
-      .reduce((scenarioMax, energySources) => {
-        const currScenarioMax = energySources[0].data.reduce(
-          (aggregate, _source, columnIndex) => {
-            const xAxisValues = energySources.reduce(
-              (xAxisAggregate, { data }) => {
-                return (xAxisAggregate += data[columnIndex]);
-              },
-              0
-            );
-            return Math.max(aggregate, xAxisValues);
-          },
-          0
-        );
-        return Math.max(scenarioMax, currScenarioMax);
-      }, 0);
-    return Math.round(maxNumber / 1000) * 1000 + 1000;
-  }, [scenarioData]);
-
+const AreaChart = ({
+  title,
+  series,
+  max,
+  chartType = "area",
+  stackingMode = "normal",
+  showLegend = true,
+}) => {
   const chartOptions = useMemo(
     () =>
       stackingMode === "percent"
-        ? getPercentStackedChartOptions(series, { stackingMode, chartType })
+        ? getPercentStackedChartOptions(series, {
+            title,
+            stackingMode,
+            chartType,
+            showLegend,
+          })
         : getNormalStackedChartOptions(series, {
+            title,
             stackingMode,
             chartType,
             max,
+            showLegend,
           }),
-    [series, stackingMode, chartType, max]
+    [series, stackingMode, chartType, max, showLegend]
   );
 
   return (
-    <section className={styles.container}>
-      <MonthlyEnergyMixChartControls
-        chartType={chartType}
-        stackingMode={stackingMode}
-        onChangeStackingMode={onChangeStackingMode}
-        onChangeChartType={onChangeChartType}
-      />
+    <section className={styles.container} style={{ height: "75vh" }}>
       <HighchartsReact
         allowChartUpdate={true}
         immutable={false}

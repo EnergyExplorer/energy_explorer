@@ -21,8 +21,7 @@ export function formatWinterSummerComparison(scenario) {
   const categories = scenario.data.energySources
     .filter(
       (sourceName) =>
-        !sourceName.endsWith("|Total") &&
-        !sourceName.endsWith("|Electricity")
+        !sourceName.endsWith("|Total") && !sourceName.endsWith("|Electricity")
     )
     .reduce((categoryMap, sourceName) => {
       const category = translateCategory(sourceName.split("|").pop());
@@ -48,10 +47,10 @@ export function formatWinterSummerComparison(scenario) {
     ),
   };
 }
-const PolarChart = ({ scenario }) => {
+const PolarChart = ({ scenario, title = "" }) => {
   const getChartOptions = () => ({
     chart: { type: "area", polar: true },
-    title: { text: "" },
+    title: { text: title },
     xAxis: {
       categories: scenario.categories,
     },

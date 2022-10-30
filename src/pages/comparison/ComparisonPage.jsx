@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Layout, Typography } from "antd";
+import { Layout, Space, Typography } from "antd";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 import { API_HOST } from "../../config";
 import { useLocation } from "react-router";
@@ -7,8 +7,8 @@ import { getSearchQuery } from "../../utils/url";
 import EnergyOutlookMenu, { energyOutlookItems } from "./EnergyOutlookMenu";
 import ComparisonPageContent from "./ComparisonPageContent";
 
-const { Title } = Typography
-const { Sider } = Layout
+const { Title } = Typography;
+const { Sider } = Layout;
 
 async function fetchScenario(key) {
   try {
@@ -22,8 +22,8 @@ async function fetchScenario(key) {
 
 const ComparisonPage = () => {
   const [scenarioData, setScenarioData] = useState(null);
-  const { search } = useLocation()
-  const ids = useMemo(() => Object.values(getSearchQuery(search)), [])
+  const { search } = useLocation();
+  const ids = useMemo(() => Object.values(getSearchQuery(search)), []);
 
   useEffect(() => {
     setTimeout(async () => {
@@ -34,26 +34,20 @@ const ComparisonPage = () => {
       );
       const scenarios = scenarioList.flat();
       setScenarioData(scenarios);
-    }, 100)
-  }, [ids])
+    }, 100);
+  }, [ids]);
 
-  const [slideKey, setSlidekey] = useState(energyOutlookItems[0].key)
+  const [slideKey, setSlidekey] = useState(energyOutlookItems[0].key);
 
   return (
-    <ApplicationWrapper
-      pageTitle='Scenario Comparison'
-      renderContentSider={styles => (
-        <Sider className={styles.contentSide} width={300}>
-          <Title level={3}>Energy Outlooks</Title>
-          <EnergyOutlookMenu
-            onSelect={setSlidekey}
-            defaultSelectedKey={slideKey}
-          />
-        </Sider>
-      )}
-    >
+    <ApplicationWrapper pageTitle="Scenario Comparison">
+      <Title level={3}>Energy Outlooks</Title>
+      <EnergyOutlookMenu onSelect={setSlidekey} defaultSelectedKey={slideKey} />
       {scenarioData && (
-        <ComparisonPageContent scenarioData={scenarioData} slideKey={slideKey}/>
+        <ComparisonPageContent
+          scenarioData={scenarioData}
+          slideKey={slideKey}
+        />
       )}
     </ApplicationWrapper>
   );
