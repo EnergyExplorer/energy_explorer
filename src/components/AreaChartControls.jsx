@@ -1,14 +1,14 @@
 import React from "react";
 import { Radio, Space } from "antd";
 
-const MonthlyEnergyMixChartControls = ({
+const AreaChartControls = ({
   chartType,
   stackingMode,
   onChangeStackingMode,
   onChangeChartType,
 }) => {
   return (
-    <Space size="small" style={{ "margin-top": "1rem" }}>
+    <Space size="small" style={{ marginTop: "1rem" }}>
       <Radio.Group
         size="medium"
         value={stackingMode}
@@ -25,4 +25,4 @@ const MonthlyEnergyMixChartControls = ({
   );
 };
 
-export default MonthlyEnergyMixChartControls;
+export default AreaChartControls;

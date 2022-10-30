@@ -87,7 +87,7 @@ const sourceColors = {
   Geothermal: "#CF4832",
 };
 
-export function formatMonthlyEnergyMix(scenario) {
+export function formatMonthlyElectricityMix(scenario) {
   return scenario.data.energySources
     .filter(
       (sourceName) =>
