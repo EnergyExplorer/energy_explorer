@@ -5,7 +5,6 @@ import styles from "./AreaChart.module.css";
 import MonthlyEnergyMixChartControls from "./MonthlyEnergyMixChartControls";
 
 function getChartOptions(series, { stackingMode, chartType }) {
-  console.log("series", series);
   return {
     chart: { type: chartType },
     title: { text: "" },
