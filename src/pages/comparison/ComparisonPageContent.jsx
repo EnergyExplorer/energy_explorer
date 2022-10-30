@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
-import { Space } from "antd";
+import React, { useState } from "react";
 import EnergyOutlookCarousel from "./EnergyOutlookCarousel";
 import FocusScenarioSelect from "./FocusScenarioSelect";
 
-import styles from './ComparisonPageContent.module.css'
+import styles from "./ComparisonPageContent.module.css";
 
 const ComparisonPageContent = ({ slideKey, scenarioData }) => {
-  const [focusScenario, setFocusScenario] = useState(scenarioData[0])
+  const [focusScenario, setFocusScenario] = useState(scenarioData[0]);
 
   return (
     <div className={styles.container}>
@@ -21,7 +20,7 @@ const ComparisonPageContent = ({ slideKey, scenarioData }) => {
         focusedScenario={focusScenario}
       />
     </div>
-  )
-}
+  );
+};
 
-export default ComparisonPageContent
+export default ComparisonPageContent;
