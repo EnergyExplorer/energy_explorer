@@ -11,7 +11,9 @@ import BarChart, {
 import PolarChart, {
   formatWinterSummerComparison,
 } from "../../components/PolarChart";
-import AreaChart, { formatMonthlyEnergyMix } from "../../components/AreaChart";
+import AreaChart, {
+  formatMonthlyElectricityMix,
+} from "../../components/AreaChart";
 import { API_HOST } from "../../config";
 
 const timesOfYear = [
@@ -120,7 +122,7 @@ const ComparisonDemoPage = () => {
                   Electricity mix over a year
                 </Typography.Title>
                 <AreaChart
-                  series={formatMonthlyEnergyMix(scenario)}
+                  series={formatMonthlyElectricityMix(scenario)}
                   scenarioData={[scenario]}
                 />
               </Space>

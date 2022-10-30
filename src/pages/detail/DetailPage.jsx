@@ -12,7 +12,9 @@ import PieChart, { formatImportsPieChart } from "../../components/PieChart";
 import PolarChart, {
   formatWinterSummerComparison,
 } from "../../components/PolarChart";
-import AreaChart, { formatMonthlyEnergyMix } from "../../components/AreaChart";
+import AreaChart, {
+  formatMonthlyElectricityMix,
+} from "../../components/AreaChart";
 import { API_HOST } from "../../config";
 
 const timesOfYear = [
@@ -100,7 +102,7 @@ const DetailPage = () => {
             Electricity mix over a year
           </Typography.Title>
           <AreaChart
-            series={formatMonthlyEnergyMix(scenarioData)}
+            series={formatMonthlyElectricityMix(scenarioData)}
             scenarioData={[scenarioData]}
             id={id}
           />
