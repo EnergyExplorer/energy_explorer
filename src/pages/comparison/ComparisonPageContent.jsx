@@ -28,7 +28,7 @@ const ComparisonPageContent = ({ slideKey: slideIndex, scenarioData }) => {
               <PolarChart
                 key={scenario.name}
                 title={scenarioTitles[scenario.name] ?? scenario.name}
-                scenario={formatWinterSummerComparison(scenarioData[0])}
+                scenario={formatWinterSummerComparison(scenario)}
               />
             ))}
           </div>
