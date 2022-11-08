@@ -1,4 +1,4 @@
-{
+export const scenarioKeyToTitleMap = {
   "co2-5_no_elec_imports_2050": "5 Mt CO2 in 2050 without electricity imports",
   "co2-5_ elec_imports_2050": "5 Mt CO2 in 2050 with electricity imports",
   "co2-25_no_elec_imports_2050": "25 Mt CO2 in 2050 without electricity imports",

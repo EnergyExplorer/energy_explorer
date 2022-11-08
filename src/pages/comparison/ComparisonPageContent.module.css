@@ -15,11 +15,3 @@
   justify-content: space-between;
   align-items: center;
 }
-
-.container .chart-section {
-  display: flex;
-}
-
-.container .chart-section * {
-  flex: 1;
-}

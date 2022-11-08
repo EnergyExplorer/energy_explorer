@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Radio, Space, Typography } from "antd";
+import { Space, Typography } from "antd";
 
 import ApplicationWrapper from "../../components/ApplicationWrapper";
-import ScenariosSankyChart from "./ScenariosSankyChart";
-import scenarioTitles from "../../scenarioTitleMap.json";
-import getSankyChartData from "./getSankyChartData.js";
+import { SankyChartControls } from './SankyChartControls'
 
 import styles from "./DetailPage.module.css";
+import { EnergyUseSankyChart } from "./EnergyUseSankyChart";
 import PieChart, { formatImportsPieChart } from "../../components/PieChart";
 import PolarChart, {
   formatWinterSummerComparison,
@@ -16,30 +15,12 @@ import AreaChart, {
   formatMonthlyElectricityMix,
 } from "../../components/AreaChart";
 import { API_HOST } from "../../config";
-
-const timesOfYear = [
-  {
-    label: "Winter",
-    value: "winterValue",
-  },
-  {
-    label: "Summer",
-    value: "summerValue",
-  },
-  {
-    label: "Year",
-    value: "yearValue",
-  },
-];
+import { scenarioKeyToTitleMap } from '../../constants/scenarioKeyToTitleMap'
 
 const DetailPage = () => {
   const [timeOfYear, setTimeOfYear] = useState("yearValue");
   const [scenarioData, setScenarioData] = useState(null);
   const { id } = useParams();
-
-  const onChangeRadio = useCallback(({ target }) => {
-    setTimeOfYear(target.value);
-  }, []);
 
   useEffect(() => {
     const fetchScenario = async () => {
@@ -64,21 +45,17 @@ const DetailPage = () => {
         <Space className={styles.container} direction="vertical" size="large">
           <Space direction="vertical" size="middle">
             <Typography.Title level={1}>
-              {scenarioTitles[scenarioData.name]} (GWh)
+              {scenarioKeyToTitleMap[scenarioData.name]} (GWh)
             </Typography.Title>
+            <SankyChartControls
+              timeOfYear={timeOfYear}
+              setTimeOfYear={setTimeOfYear}
+              scenarioData={scenarioData}
+            />
           </Space>
-          <Radio.Group size="large" value={timeOfYear} onChange={onChangeRadio}>
-            {timesOfYear.map(({ value, label }) => (
-              <Radio.Button key={value} value={value}>
-                {label}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
-          <Typography.Title level={2}>Energy use</Typography.Title>
-          <ScenariosSankyChart
-            scenario={getSankyChartData(scenarioData, timeOfYear)}
+          <EnergyUseSankyChart
+            scenarioData={scenarioData}
             timeOfYear={timeOfYear}
-            id={id}
           />
           <section className={styles["small-diagrams"]}>
             <div>
