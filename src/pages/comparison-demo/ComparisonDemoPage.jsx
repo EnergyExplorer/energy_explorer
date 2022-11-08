@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Radio, Space, Typography } from "antd";
 
 import ApplicationWrapper from "../../components/ApplicationWrapper";
-import scenarioTitles from "../../scenarioTitleMap.json";
+import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
 
 import styles from "./ComparisonDemoPage.module.css";
 import BarChart, {
@@ -105,7 +105,7 @@ const ComparisonDemoPage = () => {
               >
                 <Space direction="vertical" size="middle">
                   <Typography.Title level={2}>
-                    {scenarioTitles[scenario.name]} (GWh)
+                    {scenarioKeyToTitleMap[scenario.name]} (GWh)
                   </Typography.Title>
                 </Space>
                 <section className={styles["small-diagrams"]}>

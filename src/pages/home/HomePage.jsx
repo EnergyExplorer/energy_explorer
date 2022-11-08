@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import HomePageHeader from "./HomePageHeader";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 import StatCircle from "../../components/StatCircle";
-import scenarioTitles from "../../scenarioTitleMap.json";
+import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
 import { routes } from "../../routes";
 import { API_HOST } from "../../config";
 import ScenarioTable from "./ScenarioTable";
@@ -101,12 +101,12 @@ const HomePage = () => {
           key="name"
           render={(value, scenario) => (
             <Link to={routes.scenario.replace(":id", scenario.key)}>
-              {scenarioTitles[value] ?? value}
+              {scenarioKeyToTitleMap[value] ?? value}
             </Link>
           )}
           sorter={(a, b) => {
-            return (scenarioTitles[a.name] ?? a.name).localeCompare(
-              scenarioTitles[b.name] ?? b.name
+            return (scenarioKeyToTitleMap[a.name] ?? a.name).localeCompare(
+              scenarioKeyToTitleMap[b.name] ?? b.name
             );
           }}
           defaultSortOrder="ascend"

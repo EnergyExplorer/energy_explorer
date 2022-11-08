@@ -12,6 +12,9 @@ export const energyOutlookItems = [
   {
     label: "Monthy Energy Mix",
   },
+  {
+    label: "Energy Use",
+  }
 ].map((outlook, index) => ({ ...outlook, key: `${index}` }));
 
 const EnergyOutlookMenu = ({ defaultSelectedKey, onSelect }) => {

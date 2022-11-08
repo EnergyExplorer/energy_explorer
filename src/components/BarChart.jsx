@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { formatImportsPieChart } from "./PieChart";
-import scenarioNames from "../scenarioTitleMap.json";
+import { scenarioKeyToTitleMap } from '../constants/scenarioKeyToTitleMap'
 
 function toPercentageValues(keyValueMap) {
   const total = Object.values(keyValueMap).reduce((a, b) => a + b);
@@ -36,7 +36,7 @@ export function formatImportsMultipleScenarios(scenarios, timeOfYear) {
   );
   return Object.entries(scenarioMap).map(([scenarioName, dataMap]) => {
     return {
-      name: scenarioNames[scenarioName] ?? scenarioName,
+      name: scenarioKeyToTitleMap[scenarioName] ?? scenarioName,
       label: { format: "dope" },
       data: [...names].map((name) => ({ name: name, y: dataMap[name] ?? 0 })),
     };

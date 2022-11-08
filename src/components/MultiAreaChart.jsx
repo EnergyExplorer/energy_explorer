@@ -1,10 +1,8 @@
 import React, { useCallback, useMemo, useState } from "react";
-
 import AreaChart, { formatMonthlyElectricityMix } from "@/components/AreaChart";
 import AreaChartControls from "@/components/AreaChartControls";
-import scenarioNames from "@/scenarioTitleMap.json";
-
-import styles from "./MultiAreaChart.module.css";
+import { ChartRow } from "./ChartRow";
+import { scenarioKeyToTitleMap } from '../constants/scenarioKeyToTitleMap'
 
 function MultiAreaChart({ scenarios }) {
   const max = useMemo(() => {
@@ -45,11 +43,11 @@ function MultiAreaChart({ scenarios }) {
         onChangeStackingMode={onChangeStackingMode}
         onChangeChartType={onChangeChartType}
       />
-      <div className={styles["chart-section"]}>
+      <ChartRow>
         {scenarios.map((scenario, index) => (
           <AreaChart
             key={scenario.name}
-            title={scenarioNames[scenario.name] ?? scenario.name}
+            title={scenarioKeyToTitleMap[scenario.name] ?? scenario.name}
             max={max}
             series={formatMonthlyElectricityMix(scenario)}
             chartType={chartType}
@@ -57,7 +55,7 @@ function MultiAreaChart({ scenarios }) {
             showLegend={index == 0}
           />
         ))}
-      </div>
+      </ChartRow>
     </>
   );
 }

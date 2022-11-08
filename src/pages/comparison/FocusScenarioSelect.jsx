@@ -2,13 +2,13 @@ import React from "react";
 import { Select } from "antd";
 import { useMemo } from "react";
 import styles from "./FocusScenarioSelect.module.css";
-import scenarioTitles from "../../scenarioTitleMap.json";
+import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
 
 const FocusScenarioSelect = ({ scenarioData, value, onChange }) => {
   const options = useMemo(
     () =>
       scenarioData.map(({ name }) => ({
-        label: scenarioTitles[name],
+        label: scenarioKeyToTitleMap[name],
         value: name,
       })),
     []

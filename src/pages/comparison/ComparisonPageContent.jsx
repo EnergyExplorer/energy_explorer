@@ -1,15 +1,18 @@
-import React, { useEffect, useRef } from "react";
-import { Carousel } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { Carousel, Typography } from "antd";
 import ElectricityImportsBarChart from "./ElectricityImportsBarChart";
 import PolarChart, {
   formatWinterSummerComparison,
 } from "../../components/PolarChart";
 import MultiAreaChart from "@/components/MultiAreaChart";
-import scenarioTitles from "@/scenarioTitleMap.json";
-
+import { SankyChartControls } from '../detail/SankyChartControls';
+import { scenarioKeyToTitleMap } from "@/constants/scenarioKeyToTitleMap";
 import styles from "./ComparisonPageContent.module.css";
+import { EnergyUseSankyChart } from "../detail/EnergyUseSankyChart";
+import { ChartRow } from "../../components/ChartRow";
 
 const ComparisonPageContent = ({ slideKey: slideIndex, scenarioData }) => {
+  const [timeOfYear, setTimeOfYear] = useState("yearValue");
   const ref = useRef();
 
   useEffect(() => {
@@ -23,18 +26,34 @@ const ComparisonPageContent = ({ slideKey: slideIndex, scenarioData }) => {
           <ElectricityImportsBarChart scenarioData={scenarioData} />
         </section>
         <section>
-          <div className={styles["chart-section"]}>
+          <ChartRow>
             {scenarioData.map((scenario) => (
               <PolarChart
                 key={scenario.name}
-                title={scenarioTitles[scenario.name] ?? scenario.name}
+                title={scenarioKeyToTitleMap[scenario.name] ?? scenario.name}
                 scenario={formatWinterSummerComparison(scenario)}
               />
             ))}
-          </div>
+          </ChartRow>
         </section>
         <section>
           <MultiAreaChart scenarios={scenarioData} />
+        </section>
+        <section>
+          <SankyChartControls
+            scenarioData={scenarioData}
+            timeOfYear={timeOfYear}
+            setTimeOfYear={setTimeOfYear}
+          />
+          <Typography.Title level={2}>Energy use</Typography.Title>
+          <ChartRow>
+            {scenarioData.map((scenario) => (
+              <EnergyUseSankyChart
+                scenarioData={scenario}
+                timeOfYear={timeOfYear}
+              />
+            ))}
+          </ChartRow>
         </section>
       </Carousel>
     </div>
