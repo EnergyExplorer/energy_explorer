@@ -45,7 +45,6 @@ const ComparisonPageContent = ({ slideKey: slideIndex, scenarioData }) => {
             timeOfYear={timeOfYear}
             setTimeOfYear={setTimeOfYear}
           />
-          <Typography.Title level={2}>Energy use</Typography.Title>
           <ChartRow>
             {scenarioData.map((scenario) => (
               <EnergyUseSankyChart
