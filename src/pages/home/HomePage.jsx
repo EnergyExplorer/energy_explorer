@@ -11,32 +11,10 @@ import ScenarioTable from "./ScenarioTable";
 import { PageHeader } from './PageHeader';
 import { useScenarios } from '../../hooks/useScenarios';
 import { useComparisonScenarios } from "../../hooks/useComparisonScenarios";
+import { IntNumberFormat } from './IntNumberFormat';
+import { Percentage } from './Percentage';
 
 const { Column } = Table;
-
-function indicate(value, percent, size) {
-  return <Indicator size={size} percent={percent}>{value}</Indicator>;
-}
-
-function getPercentCalculator(minMax, inverted = false) {
-  return function (value) {
-    const percentage = ((value - minMax.min) / (minMax.max - minMax.min)) * 100;
-    if (inverted) {
-      return percentage;
-    }
-    return 100 - percentage;
-  };
-}
-
-function toPercentage(render, percentage) {
-  return (value) => render((value * 100).toFixed(0) + "%", percentage(value));
-}
-
-function withUnit(unit, render, percentage, size) {
-  const formatter = new Intl.NumberFormat();
-  return (value) =>
-    render(`${formatter.format(value)} ${unit}`, percentage(value), size);
-}
 
 const HomePage = () => {
   const {
@@ -85,11 +63,10 @@ const HomePage = () => {
           dataIndex="co2"
           key="co2"
           align='right'
-          render={withUnit(
-            "MtCO2",
-            indicate,
-            getPercentCalculator(minMaxCO2),
-            'small'
+          render={value => (
+            <Indicator value={value} minMax={minMaxCO2} size='small'>
+              <IntNumberFormat value={value} unit="MtCO2"/>
+            </Indicator>
           )}
           sorter={(a, b) => {
             return a.co2 - b.co2;
@@ -101,11 +78,10 @@ const HomePage = () => {
           dataIndex="cost"
           key="cost"
           align='right'
-          render={withUnit(
-            "M.CHF",
-            indicate,
-            getPercentCalculator(minMaxCost),
-            'large'
+          render={value => (
+            <Indicator value={value} minMax={minMaxCost} size='large'>
+              <IntNumberFormat value={value} unit="M.CHF"/>
+            </Indicator>
           )}
           sorter={(a, b) => {
             return a.cost - b.cost;
@@ -117,10 +93,15 @@ const HomePage = () => {
           dataIndex="domestic"
           key="domestic"
           align='right'
-          render={toPercentage(
-            indicate,
-            getPercentCalculator(minMaxDomestic, true),
-            'small'
+          render={value => (
+            <Indicator
+              value={value}
+              minMax={minMaxDomestic}
+              size='large'
+              hasInvertedPercent
+            >
+              <Percentage value={value}/>
+            </Indicator>
           )}
           sorter={(a, b) => {
             return a.domestic - b.domestic;
@@ -132,11 +113,10 @@ const HomePage = () => {
           dataIndex="total"
           key="total"
           align='right'
-          render={withUnit(
-            "GWh",
-            indicate,
-            getPercentCalculator(minMaxTotal),
-            'large'
+          render={value => (
+            <Indicator value={value} minMax={minMaxTotal} size='large'>
+              <IntNumberFormat value={value} unit="GWh"/>
+            </Indicator>
           )}
           sorter={(a, b) => {
             return a.total - b.total;
