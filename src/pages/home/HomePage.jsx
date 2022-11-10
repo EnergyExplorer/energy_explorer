@@ -12,6 +12,7 @@ import ScenarioTable from "./ScenarioTable";
 import { getSearchQuery } from "../../utils/url";
 import { PageHeader } from './PageHeader';
 import { useScenarios } from '../../hooks/useScenarios';
+import { useComparisonScenarios } from "../../hooks/useComparisonScenarios";
 
 const { Column } = Table;
 
@@ -48,35 +49,10 @@ const HomePage = () => {
     minMaxTotal
   } = useScenarios()
 
-  useEffect(() => {
-    const co2 = scenarioSummary.map((scenario) => scenario.co2);
-    const cost = scenarioSummary.map((scenario) => scenario.cost);
-    const domestic = scenarioSummary.map((scenario) => scenario.domestic);
-    const total = scenarioSummary.map((scenario) => scenario.total);
-    setMinMaxCO2({
-      max: Math.max(...co2),
-      min: Math.min(...co2),
-    });
-    setMinMaxCost({
-      max: Math.max(...cost),
-      min: Math.min(...cost),
-    });
-    setMinMaxDomestic({
-      max: 1,
-      min: Math.min(...domestic),
-    });
-    setMinMaxTotal({
-      max: Math.max(...total),
-      min: Math.min(...total),
-    });
-  }, [scenarioSummary]);
-
-  const { search } = useLocation()
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  useEffect(() => {
-    const { scenario_0, scenario_1, scenario_2 } = getSearchQuery(search)
-    setSelectedRowKeys([scenario_0, scenario_1, scenario_2].filter(sce => sce))
-  }, [])
+  const {
+    selectedRowKeys,
+    setSelectedRowKeys
+  } = useComparisonScenarios()
 
   return (
     <ApplicationWrapper pageTitle='Available scenarios'>
