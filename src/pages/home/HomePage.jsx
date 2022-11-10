@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import React from "react";
 import { Link } from "react-router-dom";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
-import StatCircle from "../../components/StatCircle";
+import { Indicator } from "../../components/Indicator";
 import ScenarioUploadButton from './ScenarioUploadButton';
 import ScenarioComparisonButton from './ScenarioComparisonButton';
 import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
@@ -14,8 +14,8 @@ import { useComparisonScenarios } from "../../hooks/useComparisonScenarios";
 
 const { Column } = Table;
 
-function showCircle(value, percent) {
-  return <StatCircle percent={percent}>{value}</StatCircle>;
+function indicate(value, percent, size) {
+  return <Indicator size={size} percent={percent}>{value}</Indicator>;
 }
 
 function getPercentCalculator(minMax, inverted = false) {
@@ -32,10 +32,10 @@ function toPercentage(render, percentage) {
   return (value) => render((value * 100).toFixed(0) + "%", percentage(value));
 }
 
-function withUnit(unit, render, percentage) {
+function withUnit(unit, render, percentage, size) {
   const formatter = new Intl.NumberFormat();
   return (value) =>
-  render(`${formatter.format(value)} ${unit}`, percentage(value));
+    render(`${formatter.format(value)} ${unit}`, percentage(value), size);
 }
 
 const HomePage = () => {
@@ -84,10 +84,12 @@ const HomePage = () => {
           title="CO2"
           dataIndex="co2"
           key="co2"
+          align='right'
           render={withUnit(
             "MtCO2",
-            showCircle,
-            getPercentCalculator(minMaxCO2)
+            indicate,
+            getPercentCalculator(minMaxCO2),
+            'small'
           )}
           sorter={(a, b) => {
             return a.co2 - b.co2;
@@ -98,10 +100,12 @@ const HomePage = () => {
           title="Cost"
           dataIndex="cost"
           key="cost"
+          align='right'
           render={withUnit(
             "M.CHF",
-            showCircle,
-            getPercentCalculator(minMaxCost)
+            indicate,
+            getPercentCalculator(minMaxCost),
+            'large'
           )}
           sorter={(a, b) => {
             return a.cost - b.cost;
@@ -112,9 +116,11 @@ const HomePage = () => {
           title="Domestic Energy Production"
           dataIndex="domestic"
           key="domestic"
+          align='right'
           render={toPercentage(
-            showCircle,
-            getPercentCalculator(minMaxDomestic, true)
+            indicate,
+            getPercentCalculator(minMaxDomestic, true),
+            'small'
           )}
           sorter={(a, b) => {
             return a.domestic - b.domestic;
@@ -125,10 +131,12 @@ const HomePage = () => {
           title="Total energy"
           dataIndex="total"
           key="total"
+          align='right'
           render={withUnit(
             "GWh",
-            showCircle,
-            getPercentCalculator(minMaxTotal)
+            indicate,
+            getPercentCalculator(minMaxTotal),
+            'large'
           )}
           sorter={(a, b) => {
             return a.total - b.total;
