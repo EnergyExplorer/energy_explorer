@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Table } from 'antd';
 import { Link, useLocation } from "react-router-dom";
-import HomePageHeader from "./HomePageHeader";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 import StatCircle from "../../components/StatCircle";
+import ScenarioUploadButton from './ScenarioUploadButton';
+import ScenarioComparisonButton from './ScenarioComparisonButton';
 import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
 import { routes } from "../../routes";
 import { API_HOST } from "../../config";
 import ScenarioTable from "./ScenarioTable";
 import { getSearchQuery } from "../../utils/url";
+import { PageHeader } from './PageHeader';
 
 const { Column } = Table;
 
@@ -89,7 +91,10 @@ const HomePage = () => {
 
   return (
     <ApplicationWrapper pageTitle='Available scenarios'>
-      <HomePageHeader selectedRowKeys={selectedRowKeys}/>
+      <PageHeader title='Available scenarios'>
+        <ScenarioUploadButton/>
+        <ScenarioComparisonButton selectedRowKeys={selectedRowKeys}/>
+      </PageHeader>
       <ScenarioTable
         scenarioSummary={scenarioSummary}
         selectedRowKeys={selectedRowKeys}
