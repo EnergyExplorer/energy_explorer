@@ -1,0 +1,22 @@
+.parent {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.child {
+  border-radius: 2px;
+  display: inline-flex;
+  height: 40px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.small {
+  width: 70px;
+}
+
+.large {
+  width: 140px;
+}
