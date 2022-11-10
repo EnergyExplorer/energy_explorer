@@ -30,10 +30,9 @@ function toPercentage(render, percentage) {
   return (value) => render((value * 100).toFixed(0) + "%", percentage(value));
 }
 
-function withUnit(unit, render, percentage) {
+function withUnit(unit, render, percentage, size) {
   const formatter = new Intl.NumberFormat();
   return (value) =>
-    render(`${formatter.format(value)} ${unit}`, percentage(value));
 }
 
 async function fetchScenarios() {
@@ -42,6 +41,7 @@ async function fetchScenarios() {
     ...scenario,
     cost: Math.round(scenario.cost),
   }));
+    render(`${formatter.format(value)} ${unit}`, percentage(value), size);
 }
 
 const HomePage = () => {
@@ -120,6 +120,7 @@ const HomePage = () => {
             "MtCO2",
             indicate,
             getPercentCalculator(minMaxCO2),
+            'small'
           )}
           sorter={(a, b) => {
             return a.co2 - b.co2;
@@ -134,6 +135,7 @@ const HomePage = () => {
             "M.CHF",
             indicate,
             getPercentCalculator(minMaxCost),
+            'large'
           )}
           sorter={(a, b) => {
             return a.cost - b.cost;
@@ -147,6 +149,7 @@ const HomePage = () => {
           render={toPercentage(
             indicate,
             getPercentCalculator(minMaxDomestic, true),
+            'small'
           )}
           sorter={(a, b) => {
             return a.domestic - b.domestic;
@@ -161,6 +164,7 @@ const HomePage = () => {
             "GWh",
             indicate,
             getPercentCalculator(minMaxTotal),
+            'large'
           )}
           sorter={(a, b) => {
             return a.total - b.total;
