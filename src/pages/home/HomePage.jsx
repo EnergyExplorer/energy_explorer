@@ -116,6 +116,7 @@ const HomePage = () => {
           title="CO2"
           dataIndex="co2"
           key="co2"
+          align='right'
           render={withUnit(
             "MtCO2",
             indicate,
@@ -131,6 +132,7 @@ const HomePage = () => {
           title="Cost"
           dataIndex="cost"
           key="cost"
+          align='right'
           render={withUnit(
             "M.CHF",
             indicate,
@@ -146,6 +148,7 @@ const HomePage = () => {
           title="Domestic Energy Production"
           dataIndex="domestic"
           key="domestic"
+          align='right'
           render={toPercentage(
             indicate,
             getPercentCalculator(minMaxDomestic, true),
@@ -160,6 +163,7 @@ const HomePage = () => {
           title="Total energy"
           dataIndex="total"
           key="total"
+          align='right'
           render={withUnit(
             "GWh",
             indicate,
