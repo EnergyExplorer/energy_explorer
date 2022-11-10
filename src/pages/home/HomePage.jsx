@@ -11,6 +11,7 @@ import { API_HOST } from "../../config";
 import ScenarioTable from "./ScenarioTable";
 import { getSearchQuery } from "../../utils/url";
 import { PageHeader } from './PageHeader';
+import { useScenarios } from '../../hooks/useScenarios';
 
 const { Column } = Table;
 
@@ -47,17 +48,13 @@ async function fetchScenarios() {
 }
 
 const HomePage = () => {
-  const [scenarioSummary, setScenarioSummary] = useState([]);
-  const [minMaxCO2, setMinMaxCO2] = useState({ min: 0, max: 0 });
-  const [minMaxCost, setMinMaxCost] = useState({ min: 0, max: 0 });
-  const [minMaxDomestic, setMinMaxDomestic] = useState({ min: 0, max: 0 });
-  const [minMaxTotal, setMinMaxTotal] = useState({ min: 0, max: 0 });
-
-  useEffect(() => {
-    (async function () {
-      setScenarioSummary(await fetchScenarios());
-    })().catch((error) => console.error("Could not load scenarios", error));
-  }, []);
+  const {
+    scenarioSummary,
+    minMaxCO2,
+    minMaxCost,
+    minMaxDomestic,
+    minMaxTotal
+  } = useScenarios()
 
   useEffect(() => {
     const co2 = scenarioSummary.map((scenario) => scenario.co2);
