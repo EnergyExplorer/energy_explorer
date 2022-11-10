@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
 import { Table } from 'antd';
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 import StatCircle from "../../components/StatCircle";
 import ScenarioUploadButton from './ScenarioUploadButton';
 import ScenarioComparisonButton from './ScenarioComparisonButton';
 import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
 import { routes } from "../../routes";
-import { API_HOST } from "../../config";
 import ScenarioTable from "./ScenarioTable";
-import { getSearchQuery } from "../../utils/url";
 import { PageHeader } from './PageHeader';
 import { useScenarios } from '../../hooks/useScenarios';
 import { useComparisonScenarios } from "../../hooks/useComparisonScenarios";
