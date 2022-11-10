@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { API_HOST } from '../../src/config';
+import { scenarioKeyToTitleMap } from '../constants/scenarioKeyToTitleMap';
 
 export const useScenarios = () => {
   const [scenarioSummary, setScenarioSummary] = useState([]);
@@ -17,7 +18,15 @@ export const useScenarios = () => {
           scenarios.map((scenario) => ({
             ...scenario,
             cost: Math.round(scenario.cost)
-          }))
+          })).sort((a, b) => {
+            if (scenarioKeyToTitleMap[a.name] > scenarioKeyToTitleMap[b.name]) {
+              return 1;
+            }
+            if (scenarioKeyToTitleMap[a.name] < scenarioKeyToTitleMap[b.name]) {
+              return -1;
+            }
+            return 0;
+          })
         )
       } catch (error) {
         console.error("Could not load scenarios", error)

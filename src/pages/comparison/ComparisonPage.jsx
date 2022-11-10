@@ -25,7 +25,7 @@ async function fetchScenario(key) {
 const ComparisonPage = () => {
   const [scenarioData, setScenarioData] = useState(null);
   const { search } = useLocation();
-  const ids = useMemo(() => Object.values(getSearchQuery(search)), []);
+  const ids = useMemo(() => Object.values(getSearchQuery(search)), [search]);
 
   useEffect(() => {
     setTimeout(async () => {

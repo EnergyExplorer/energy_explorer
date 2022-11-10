@@ -7,7 +7,10 @@ import { createSearchQuery } from '../../utils/url';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ScenarioComparisonButton = ({ selectedRowKeys }) => {
+const ScenarioComparisonButton = ({
+  selectedRowKeys,
+  beforeNavigate
+}) => {
   const navigate = useNavigate()
 
   const queryParams = useMemo(() => (
@@ -27,6 +30,9 @@ const ScenarioComparisonButton = ({ selectedRowKeys }) => {
       "Selected scenarios",
       createSearchQuery(queryParams)
     )
+    if (beforeNavigate) {
+      beforeNavigate()
+    }
     navigate({
       pathname: routes.comparison(),
       search: createSearchQuery(queryParams)
