@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Layout, Space, Typography } from "antd";
+import { Layout, Typography } from "antd";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 import { API_HOST } from "../../config";
 import { useLocation } from "react-router";
 import { getSearchQuery } from "../../utils/url";
 import EnergyOutlookMenu, { energyOutlookItems } from "./EnergyOutlookMenu";
 import ComparisonPageContent from "./ComparisonPageContent";
+import { PageHeader } from '../home/PageHeader';
+import { ComparisonChoiceDrawer } from './ComparisonChoiceDrawer';
 
 const { Title } = Typography;
 const { Sider } = Layout;
@@ -23,7 +25,7 @@ async function fetchScenario(key) {
 const ComparisonPage = () => {
   const [scenarioData, setScenarioData] = useState(null);
   const { search } = useLocation();
-  const ids = useMemo(() => Object.values(getSearchQuery(search)), []);
+  const ids = useMemo(() => Object.values(getSearchQuery(search)), [search]);
 
   useEffect(() => {
     setTimeout(async () => {
@@ -41,7 +43,9 @@ const ComparisonPage = () => {
 
   return (
     <ApplicationWrapper pageTitle="Scenario Comparison">
-      <Title level={3}>Energy Outlooks</Title>
+      <PageHeader title='Energy Outlook'>
+        <ComparisonChoiceDrawer/>
+      </PageHeader>
       <EnergyOutlookMenu onSelect={setSlidekey} defaultSelectedKey={slideKey} />
       {scenarioData && (
         <ComparisonPageContent

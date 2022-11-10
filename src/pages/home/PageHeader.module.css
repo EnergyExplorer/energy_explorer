@@ -3,3 +3,13 @@
   justify-content: flex-end;
   height: 100%;
 }
+
+.titleContainer {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.title  {
+  margin-bottom: 0 !important;
+}

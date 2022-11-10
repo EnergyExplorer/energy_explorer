@@ -21,9 +21,7 @@ const ScenarioTable = ({
       </Tooltip>
     ),
     selectedRowKeys,
-    onChange: newSelectedRowKeys => {
-      setSelectedRowKeys(newSelectedRowKeys)
-    },
+    onChange: setSelectedRowKeys,
     getCheckboxProps: record => ({
       disabled: (
         !selectedRowKeys.find(selectedRow => selectedRow === record.key)
