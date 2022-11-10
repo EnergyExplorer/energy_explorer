@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
 import { Table } from 'antd';
-import { Link, useLocation } from "react-router-dom";
-import HomePageHeader from "./HomePageHeader";
+import React from "react";
+import { Link } from "react-router-dom";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
 import { Indicator } from "../../components/Indicator";
+import ScenarioUploadButton from './ScenarioUploadButton';
+import ScenarioComparisonButton from './ScenarioComparisonButton';
 import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
 import { routes } from "../../routes";
-import { API_HOST } from "../../config";
 import ScenarioTable from "./ScenarioTable";
-import { getSearchQuery } from "../../utils/url";
+import { PageHeader } from './PageHeader';
+import { useScenarios } from '../../hooks/useScenarios';
+import { useComparisonScenarios } from "../../hooks/useComparisonScenarios";
 
 const { Column } = Table;
 
@@ -33,63 +35,29 @@ function toPercentage(render, percentage) {
 function withUnit(unit, render, percentage, size) {
   const formatter = new Intl.NumberFormat();
   return (value) =>
-}
-
-async function fetchScenarios() {
-  const response = await fetch(`${API_HOST}/scenarios`);
-  return (await response.json()).map((scenario) => ({
-    ...scenario,
-    cost: Math.round(scenario.cost),
-  }));
     render(`${formatter.format(value)} ${unit}`, percentage(value), size);
 }
 
 const HomePage = () => {
-  const [scenarioSummary, setScenarioSummary] = useState([]);
-  const [minMaxCO2, setMinMaxCO2] = useState({ min: 0, max: 0 });
-  const [minMaxCost, setMinMaxCost] = useState({ min: 0, max: 0 });
-  const [minMaxDomestic, setMinMaxDomestic] = useState({ min: 0, max: 0 });
-  const [minMaxTotal, setMinMaxTotal] = useState({ min: 0, max: 0 });
+  const {
+    scenarioSummary,
+    minMaxCO2,
+    minMaxCost,
+    minMaxDomestic,
+    minMaxTotal
+  } = useScenarios()
 
-  useEffect(() => {
-    (async function () {
-      setScenarioSummary(await fetchScenarios());
-    })().catch((error) => console.error("Could not load scenarios", error));
-  }, []);
-
-  useEffect(() => {
-    const co2 = scenarioSummary.map((scenario) => scenario.co2);
-    const cost = scenarioSummary.map((scenario) => scenario.cost);
-    const domestic = scenarioSummary.map((scenario) => scenario.domestic);
-    const total = scenarioSummary.map((scenario) => scenario.total);
-    setMinMaxCO2({
-      max: Math.max(...co2),
-      min: Math.min(...co2),
-    });
-    setMinMaxCost({
-      max: Math.max(...cost),
-      min: Math.min(...cost),
-    });
-    setMinMaxDomestic({
-      max: 1,
-      min: Math.min(...domestic),
-    });
-    setMinMaxTotal({
-      max: Math.max(...total),
-      min: Math.min(...total),
-    });
-  }, [scenarioSummary]);
-
-  const { search } = useLocation()
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  useEffect(() => {
-    const { scenario_0, scenario_1, scenario_2 } = getSearchQuery(search)
-    setSelectedRowKeys([scenario_0, scenario_1, scenario_2].filter(sce => sce))
-  }, [])
+  const {
+    selectedRowKeys,
+    setSelectedRowKeys
+  } = useComparisonScenarios()
 
   return (
     <ApplicationWrapper pageTitle='Available scenarios'>
-      <HomePageHeader selectedRowKeys={selectedRowKeys}/>
+      <PageHeader title='Available scenarios'>
+        <ScenarioUploadButton/>
+        <ScenarioComparisonButton selectedRowKeys={selectedRowKeys}/>
+      </PageHeader>
       <ScenarioTable
         scenarioSummary={scenarioSummary}
         selectedRowKeys={selectedRowKeys}
