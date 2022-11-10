@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import { Link, useLocation } from "react-router-dom";
 import HomePageHeader from "./HomePageHeader";
 import ApplicationWrapper from "../../components/ApplicationWrapper";
-import StatCircle from "../../components/StatCircle";
+import { Indicator } from "../../components/Indicator";
 import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
 import { routes } from "../../routes";
 import { API_HOST } from "../../config";
@@ -12,8 +12,8 @@ import { getSearchQuery } from "../../utils/url";
 
 const { Column } = Table;
 
-function showCircle(value, percent) {
-  return <StatCircle percent={percent}>{value}</StatCircle>;
+function indicate(value, percent, size) {
+  return <Indicator size={size} percent={percent}>{value}</Indicator>;
 }
 
 function getPercentCalculator(minMax, inverted = false) {
@@ -118,8 +118,8 @@ const HomePage = () => {
           key="co2"
           render={withUnit(
             "MtCO2",
-            showCircle,
-            getPercentCalculator(minMaxCO2)
+            indicate,
+            getPercentCalculator(minMaxCO2),
           )}
           sorter={(a, b) => {
             return a.co2 - b.co2;
@@ -132,8 +132,8 @@ const HomePage = () => {
           key="cost"
           render={withUnit(
             "M.CHF",
-            showCircle,
-            getPercentCalculator(minMaxCost)
+            indicate,
+            getPercentCalculator(minMaxCost),
           )}
           sorter={(a, b) => {
             return a.cost - b.cost;
@@ -145,8 +145,8 @@ const HomePage = () => {
           dataIndex="domestic"
           key="domestic"
           render={toPercentage(
-            showCircle,
-            getPercentCalculator(minMaxDomestic, true)
+            indicate,
+            getPercentCalculator(minMaxDomestic, true),
           )}
           sorter={(a, b) => {
             return a.domestic - b.domestic;
@@ -159,8 +159,8 @@ const HomePage = () => {
           key="total"
           render={withUnit(
             "GWh",
-            showCircle,
-            getPercentCalculator(minMaxTotal)
+            indicate,
+            getPercentCalculator(minMaxTotal),
           )}
           sorter={(a, b) => {
             return a.total - b.total;
