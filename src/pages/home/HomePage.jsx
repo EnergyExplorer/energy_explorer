@@ -36,15 +36,7 @@ function toPercentage(render, percentage) {
 function withUnit(unit, render, percentage) {
   const formatter = new Intl.NumberFormat();
   return (value) =>
-    render(`${formatter.format(value)} ${unit}`, percentage(value));
-}
-
-async function fetchScenarios() {
-  const response = await fetch(`${API_HOST}/scenarios`);
-  return (await response.json()).map((scenario) => ({
-    ...scenario,
-    cost: Math.round(scenario.cost),
-  }));
+  render(`${formatter.format(value)} ${unit}`, percentage(value));
 }
 
 const HomePage = () => {
