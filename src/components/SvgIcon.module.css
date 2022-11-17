@@ -1,7 +1,33 @@
 .svg {
   color: inherit;
 }
-.svg svg {
+
+.size-default svg {
   width: 1em;
   height: 1em;
+}
+
+.size-small svg {
+  width: 12px;
+  height: 12px;
+}
+
+.size-base svg {
+  width: 14px;
+  height: 14px;
+}
+
+.size-medium svg {
+  width: 16px;
+  height: 16px;
+}
+
+.size-large svg {
+  width: 18px;
+  height: 18px;
+}
+
+.size-very-large svg {
+  width: 20px;
+  height: 20px;
 }

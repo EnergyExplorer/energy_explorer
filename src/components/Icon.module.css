@@ -1,0 +1,4 @@
+.icon {
+  display: flex !important;
+  transition: 2s linear;
+}

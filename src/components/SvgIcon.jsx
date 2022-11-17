@@ -1,14 +1,16 @@
 import React from 'react'
 import styles from './SvgIcon.module.css'
 
-const SvgIcon = ({ children }) => (
+export const SvgIcon = ({ children, size = 'default' }) => (
   <span
     role="img"
     aria-label="upload"
-    className={`anticon anticon-upload ${styles.svg}`}
+    className={
+      `anticon anticon-upload
+      ${styles.svg}
+      ${styles[`size-${size}`]}`
+    }
   >
     {children}
   </span>
 )
-
-export default SvgIcon

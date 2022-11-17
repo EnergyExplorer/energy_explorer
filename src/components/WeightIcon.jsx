@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '@ant-design/icons'
-import SvgIcon from './SvgIcon'
+import { SvgIcon } from './SvgIcon'
 
 const WeightIcon = props => (
   <Icon {...props} component={
