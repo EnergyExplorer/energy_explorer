@@ -5,6 +5,8 @@ import ScenarioComparisonButton from './ScenarioComparisonButton';
 import { PageHeader } from './PageHeader';
 import { useComparisonScenarios } from "../../hooks/useComparisonScenarios";
 import { ScenarioTableContainer } from './ScenarioTableContainer';
+import { Space } from "antd";
+import styles from './HomePage.module.css'
 
 const HomePage = () => {
   const {
@@ -13,15 +15,17 @@ const HomePage = () => {
   } = useComparisonScenarios()
 
   return (
-    <ApplicationWrapper pageTitle='Available scenarios'>
-      <PageHeader title='Available scenarios'>
-        <ScenarioUploadButton/>
-        <ScenarioComparisonButton selectedRowKeys={selectedRowKeys}/>
-      </PageHeader>
-      <ScenarioTableContainer
-        selectedRowKeys={selectedRowKeys}
-        setSelectedRowKeys={setSelectedRowKeys}
-      />
+    <ApplicationWrapper>
+      <Space className={styles.homepage} size='large' direction="vertical">
+        <PageHeader title='Available scenarios'>
+          <ScenarioUploadButton/>
+          <ScenarioComparisonButton selectedRowKeys={selectedRowKeys}/>
+        </PageHeader>
+        <ScenarioTableContainer
+          selectedRowKeys={selectedRowKeys}
+          setSelectedRowKeys={setSelectedRowKeys}
+        />
+      </Space>
     </ApplicationWrapper>
   );
 };
