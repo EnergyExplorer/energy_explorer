@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table } from 'antd';
+import { Table, Space } from 'antd';
 import { Link } from "react-router-dom";
 import { Indicator } from "../../components/Indicator";
 import { scenarioKeyToTitleMap } from "../../constants/scenarioKeyToTitleMap";
@@ -9,6 +9,7 @@ import { useScenarios } from '../../hooks/useScenarios';
 import { IntNumberFormat } from './IntNumberFormat';
 import { Percentage } from './Percentage';
 import { ScenarioTitle } from './ScenarioTitle';
+import { Icon } from '../../components/Icon';
 
 const { Column } = Table;
 
@@ -48,7 +49,7 @@ export const ScenarioTableContainer = ({
         sortDirections={["ascend", "descend", "ascend"]}
       />
       <Column
-        title="CO2"
+        title={<Space><Icon color="gray" name='co2' size='large'/><span>CO<sub>2</sub></span></Space>}
         dataIndex="co2"
         key="co2"
         align='right'
@@ -63,7 +64,7 @@ export const ScenarioTableContainer = ({
         sortDirections={["descend", "ascend", "descend"]}
       />
       <Column
-        title="Cost"
+        title={<Space><Icon color="green" name='money' size='large'/>Cost</Space>}
         dataIndex="cost"
         key="cost"
         align='right'
@@ -78,7 +79,9 @@ export const ScenarioTableContainer = ({
         sortDirections={["descend", "ascend", "descend"]}
       />
       <Column
-        title="Domestic Energy Production"
+        title={<Space>
+          <Icon color="#FF0000" name='switzerland' size='large'/>Domestic Energy Production
+        </Space>}
         dataIndex="domestic"
         key="domestic"
         align='right'
@@ -98,7 +101,7 @@ export const ScenarioTableContainer = ({
         sortDirections={["descend", "ascend", "descend"]}
       />
       <Column
-        title="Total energy"
+        title={<Space><Icon color="orange" name='thunder'/>Total energy</Space>}
         dataIndex="total"
         key="total"
         align='right'
